@@ -17,10 +17,10 @@
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <!--#region StarterMenu-->
-        <Image x:Name="StartButton"  Source="/Imagine/Start.png" Margin="1240,210,120,574" MouseLeftButtonDown="StartGame"/>
-        <Image x:Name="LoadSaveButton" Margin="1036,358,172,294" Source="/Imagine/Load.png"/>
-        <Image x:Name="ExitButton" Margin="992,669,596,173" Source="/Imagine/Exit.png" MouseLeftButtonDown="Exit"/>
-        <Image x:Name="TopPlayers" Margin="164,90,1207,95" Source="/Imagine/TopPlayers.png" Stretch="Fill"/>
+        <Image x:Name="StartButton"  Source="/Images/Start.png" Margin="1240,210,120,574" MouseLeftButtonDown="StartGame"/>
+        <Image x:Name="LoadSaveButton" Margin="1036,358,172,294" Source="/Images/Load.png"/>
+        <Image x:Name="ExitButton" Margin="992,669,596,173" Source="/Images/Exit.png" MouseLeftButtonDown="Exit"/>
+        <Image x:Name="TopPlayers" Margin="164,90,1207,95" Source="/Images/TopPlayers.png" Stretch="Fill"/>
         <!--#endregion-->
         <!--#region Leaderboard-->
         <!--#region TopPlayers-->
