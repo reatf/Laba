@@ -1,4 +1,4 @@
-﻿<Page x:Class="Laba.Pages.GamePage"
+﻿<Page x:Class="Laba.GamePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -15,10 +15,12 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
+
         <Canvas>
             <Image x:Name="Board" Source="/Images/Board.png" Canvas.Left="523" Canvas.Top="108" HorizontalAlignment="Center" VerticalAlignment="Top" Panel.ZIndex="1"/>
             <Image x:Name="ChipCount" Margin="1540,229,-1390,753" Source="/Images/ChipCount.png" />
-            <Image x:Name="Cat" Margin="-216,240,327,780" Source="/Images/Cat.gif" />
+            <Image x:Name="WhiteChip" Margin="1573,367,-1543,-337" Source="/Images/WhiteChip.png" Stretch="None"/>
+            <Image x:Name="BlackChip" Source="/Images/BlackChip.png" Canvas.Left="1573" Canvas.Top="592" />
             <!--#region Row1-->
             <Image x:Name="A1" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="538" Canvas.Top="122" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"/>
             <Image x:Name="B1" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="646" Canvas.Top="122" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"/>
@@ -54,13 +56,11 @@
             <Image x:Name="A4" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="538" Canvas.Top="440" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
             <Image x:Name="B4" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="646" Canvas.Top="440" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
             <Image x:Name="C4" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="752" Canvas.Top="440" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"/>
-            <Image x:Name="D4" Source="/Images/BlackChip.png" Stretch="Fill" HorizontalAlignment="Center" Width="89" Height="93" VerticalAlignment="Top" Panel.ZIndex="1" Canvas.Left="857" Canvas.Top="440"/>
+            <Image x:Name="D4" Source="/Images/BlackChip.png" Stretch="Fill" HorizontalAlignment="Center" Width="89" Height="93" VerticalAlignment="Top" Panel.ZIndex="1" Canvas.Left="857" Canvas.Top="440" />
             <Image x:Name="E4" Source="/Images/WhiteChip.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="964" Canvas.Top="440" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Image x:Name="F4" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="1071" Canvas.Top="440" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Image x:Name="G4" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="1176" Canvas.Top="440" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
             <Image x:Name="H4" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="1282" Canvas.Top="440" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
-            
-
             <!--#endregion-->
             <!--#region Row5-->
             <Image x:Name="A5" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="538" Canvas.Top="546" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"/>
