@@ -36,8 +36,8 @@ namespace Laba
                                    { A7, B7, C7, D7, E7, F7, G7, H7 },
                                    { A8, B8, C8, D8, E8, F8, G8, H8 } };
 
-            DoubleAnimation WidthAnimation = new DoubleAnimation(Positions[Column, Row].Width, Positions[Column, Row].Width-2*Change, TimeSpan.FromSeconds(0.2));
-            DoubleAnimation LeftAnimation = new DoubleAnimation(0, Change, TimeSpan.FromSeconds(0.2));
+            DoubleAnimation WidthAnimation = new(Positions[Column, Row].Width, Positions[Column, Row].Width-2*Change, TimeSpan.FromSeconds(0.2));
+            DoubleAnimation LeftAnimation = new(0, Change, TimeSpan.FromSeconds(0.2));
             TranslateTransform Transform = new();
             WidthAnimation.AutoReverse = true;
             LeftAnimation.AutoReverse = true;
@@ -56,7 +56,7 @@ namespace Laba
             }
         }
 
-        private void Start (int WhiteTens, int WhiteUnits, int BlackTens, int BlackUnits)
+        private void ChangeChipsCountVisual (int WhiteTens, int WhiteUnits, int BlackTens, int BlackUnits)
         {
             int ChangeOne = 10;
             int ChangeAnother = 87;
@@ -163,7 +163,7 @@ namespace Laba
                         break;
                     }
             }
-            switch (BlackTens)
+            switch(BlackTens)
             {
                 case 0:
                     {
@@ -213,7 +213,7 @@ namespace Laba
                         break;
                     }
             }
-            switch (BlackUnits)
+            switch(BlackUnits)
             {
                 case 0:
                     {
@@ -265,6 +265,21 @@ namespace Laba
                         this.BlackUnits.Source = new BitmapImage(new Uri("/Images/Numbers/9.png", UriKind.Relative));
                         break;
                     }
+            }
+        }
+        private void ChangeMoveVisual()
+        {
+            if(MoveChip.Source.ToString() == BlackChip.Source.ToString())
+            {
+                Canvas.SetLeft(MoveOfPlayer, Canvas.GetLeft(MoveOfPlayer) + 36);
+                MoveOfPlayer.Source = new BitmapImage(new Uri("/Images/WhiteMove.png", UriKind.Relative));
+                MoveChip.Source = new BitmapImage(new Uri("/Images/WhiteChip.png", UriKind.Relative));
+            }
+            else
+            {
+                Canvas.SetLeft(MoveOfPlayer, Canvas.GetLeft(MoveOfPlayer) - 36);
+                MoveOfPlayer.Source = new BitmapImage(new Uri("/Images/BlackMove.png", UriKind.Relative));
+                MoveChip.Source = new BitmapImage(new Uri("/Images/BlackChip.png", UriKind.Relative));
             }
         }
     }
