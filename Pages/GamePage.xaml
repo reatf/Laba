@@ -16,11 +16,18 @@
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
-        <Canvas>
+        <Canvas Margin="0,0,762,0">
             <Image x:Name="Board" Source="/Images/Board.png" Canvas.Left="523" Canvas.Top="108" HorizontalAlignment="Center" VerticalAlignment="Top" Panel.ZIndex="1"/>
-            <Image x:Name="ChipCount" Margin="1540,229,-1390,753" Source="/Images/ChipCount.png" />
-            <Image x:Name="WhiteChip" Margin="1573,367,-1543,-337" Source="/Images/WhiteChip.png" Stretch="None"/>
-            <Image x:Name="BlackChip" Source="/Images/BlackChip.png" Canvas.Left="1573" Canvas.Top="592" />
+            <!--#region ChipCounter-->
+            <Image x:Name="ChipCount" Source="/Images/ChipCount.png" Canvas.Left="1448" Canvas.Top="229"/>
+            <Image x:Name="WhiteChip" Source="/Images/WhiteChip.png" Stretch="None" Canvas.Left="1482" Canvas.Top="367" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Image x:Name="BlackChip" Source="/Images/BlackChip.png" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="1482" Canvas.Top="592" />
+            <Image x:Name="WhiteUnits" Source="/Images/Numbers/2.png" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="85" Height="114" Canvas.Left="1761" Canvas.Top="367"/>
+            <Image x:Name="WhiteTens" Source="/Images/Numbers/1.png" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Center" Width="85" Height="114" Canvas.Left="1674" Canvas.Top="367" Visibility="Hidden"/>
+            <Image x:Name="BlackTens" Source="/Images/Numbers/1.png" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Center" Width="85" Height="114" Canvas.Left="1674" Canvas.Top="595" Visibility="Hidden"/>
+            <Image x:Name="BlackUnits" Source="/Images/Numbers/2.png" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Width="85" Height="114" Canvas.Left="1761" Canvas.Top="595"/>
+            <!--#endregion-->
+            <!--#region Board-->
             <!--#region Row1-->
             <Image x:Name="A1" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="538" Canvas.Top="122" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"/>
             <Image x:Name="B1" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="646" Canvas.Top="122" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"/>
@@ -56,7 +63,7 @@
             <Image x:Name="A4" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="538" Canvas.Top="440" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
             <Image x:Name="B4" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="646" Canvas.Top="440" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
             <Image x:Name="C4" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="752" Canvas.Top="440" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"/>
-            <Image x:Name="D4" Source="/Images/BlackChip.png" Stretch="Fill" HorizontalAlignment="Center" Width="89" Height="93" VerticalAlignment="Top" Panel.ZIndex="1" Canvas.Left="857" Canvas.Top="440" />
+            <Image x:Name="D4" Source="/Images/BlackChip.png" Stretch="Fill" HorizontalAlignment="Center" Width="89" Height="93" VerticalAlignment="Top" Panel.ZIndex="1" Canvas.Left="857" Canvas.Top="440"/>
             <Image x:Name="E4" Source="/Images/WhiteChip.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="964" Canvas.Top="440" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Image x:Name="F4" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="1071" Canvas.Top="440" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Image x:Name="G4" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="1176" Canvas.Top="440" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
@@ -76,7 +83,7 @@
             <Image x:Name="A6" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="538" Canvas.Top="652" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
             <Image x:Name="B6" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="646" Canvas.Top="652" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
             <Image x:Name="C6" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="752" Canvas.Top="652" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
-            <Image x:Name="D6" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="857" Canvas.Top="652" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Image x:Name="D6" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="857" Canvas.Top="652" HorizontalAlignment="Center" VerticalAlignment="Center" MouseLeftButtonDown="D6_MouseLeftButtonDown"/>
             <Image x:Name="E6" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="964" Canvas.Top="652" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
             <Image x:Name="F6" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="1071" Canvas.Top="652" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
             <Image x:Name="G6" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="1176" Canvas.Top="652" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
@@ -101,6 +108,7 @@
             <Image x:Name="F8" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="1071" Canvas.Top="864" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
             <Image x:Name="G8" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="1176" Canvas.Top="864" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
             <Image x:Name="H8" Source="/Images/HintMove.png" Stretch="Fill" Width="89" Height="93" Panel.ZIndex="1" Canvas.Left="1282" Canvas.Top="864" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
+            <!--#endregion-->
             <!--#endregion-->
         </Canvas>
     </Grid>
