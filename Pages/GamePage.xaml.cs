@@ -55,5 +55,217 @@ namespace Laba
                 Positions[Column, Row].Source = WhiteChip.Source;
             }
         }
+
+        private void Start (int WhiteTens, int WhiteUnits, int BlackTens, int BlackUnits)
+        {
+            int ChangeOne = 10;
+            int ChangeAnother = 87;
+            switch(WhiteTens)
+            {
+                case 0:
+                    {
+                        this.WhiteTens.Visibility = Visibility.Hidden;
+                        break;
+                    }
+                case 1:
+                    {
+                        Canvas.SetLeft(this.WhiteTens, Canvas.GetLeft(this.WhiteTens) + ChangeOne);
+                        this.WhiteTens.Source = new BitmapImage(new Uri("/Images/Numbers/1.png", UriKind.Relative));
+                        this.WhiteTens.Visibility = Visibility.Visible;
+                        break;
+                    }
+                case 2:
+                    {
+                        Canvas.SetLeft(this.WhiteTens, Canvas.GetLeft(this.WhiteUnits) - ChangeAnother);
+                        this.WhiteTens.Source = new BitmapImage(new Uri("/Images/Numbers/2.png", UriKind.Relative));
+                        this.WhiteTens.Visibility = Visibility.Visible;
+                        break;
+                    }
+                case 3:
+                    {
+                        Canvas.SetLeft(this.WhiteTens, Canvas.GetLeft(this.WhiteUnits) - ChangeAnother);
+                        this.WhiteTens.Source = new BitmapImage(new Uri("/Images/Numbers/3.png", UriKind.Relative));
+                        this.WhiteTens.Visibility = Visibility.Visible;
+                        break;
+                    }
+                case 4:
+                    {
+                        Canvas.SetLeft(this.WhiteTens, Canvas.GetLeft(this.WhiteUnits) - ChangeAnother);
+                        this.WhiteTens.Source = new BitmapImage(new Uri("/Images/Numbers/4.png", UriKind.Relative));
+                        this.WhiteTens.Visibility = Visibility.Visible;
+                        break;
+                    }
+                case 5:
+                    {
+                        Canvas.SetLeft(this.WhiteTens, Canvas.GetLeft(this.WhiteUnits) - ChangeAnother);
+                        this.WhiteTens.Source = new BitmapImage(new Uri("/Images/Numbers/5.png", UriKind.Relative));
+                        this.WhiteTens.Visibility = Visibility.Visible;
+                        break;
+                    }
+                case 6:
+                    {
+                        Canvas.SetLeft(this.WhiteTens, Canvas.GetLeft(this.WhiteUnits) - ChangeAnother);
+                        this.WhiteTens.Source = new BitmapImage(new Uri("/Images/Numbers/6.png", UriKind.Relative));
+                        this.WhiteTens.Visibility = Visibility.Visible;
+                        break;
+                    }
+            }
+            switch(WhiteUnits)
+            {
+                case 0:
+                    {
+                        this.WhiteUnits.Source = new BitmapImage(new Uri("/Images/Numbers/0.png", UriKind.Relative));
+                        break;
+                    }
+                case 1:
+                    {
+                        this.WhiteUnits.Source = new BitmapImage(new Uri("/Images/Numbers/1.png", UriKind.Relative));
+                        break;
+                    }
+                case 2:
+                    {
+                        this.WhiteUnits.Source = new BitmapImage(new Uri("/Images/Numbers/2.png", UriKind.Relative));
+                        break;
+                    }
+                case 3:
+                    {
+                        this.WhiteUnits.Source = new BitmapImage(new Uri("/Images/Numbers/3.png", UriKind.Relative));
+                        break;
+                    }
+                case 4:
+                    {
+                        this.WhiteUnits.Source = new BitmapImage(new Uri("/Images/Numbers/4.png", UriKind.Relative));
+                        break;
+                    }
+                case 5:
+                    {
+                        this.WhiteUnits.Source = new BitmapImage(new Uri("/Images/Numbers/5.png", UriKind.Relative));
+                        break;
+                    }
+                case 6:
+                    {
+                        this.WhiteUnits.Source = new BitmapImage(new Uri("/Images/Numbers/6.png", UriKind.Relative));
+                        break;
+                    }
+                case 7:
+                    {
+                        this.WhiteUnits.Source = new BitmapImage(new Uri("/Images/Numbers/7.png", UriKind.Relative));
+                        break;
+                    }
+                case 8:
+                    {
+                        this.WhiteUnits.Source = new BitmapImage(new Uri("/Images/Numbers/8.png", UriKind.Relative));
+                        break;
+                    }
+                case 9:
+                    {
+                        this.WhiteUnits.Source = new BitmapImage(new Uri("/Images/Numbers/9.png", UriKind.Relative));
+                        break;
+                    }
+            }
+            switch (BlackTens)
+            {
+                case 0:
+                    {
+                        this.BlackTens.Visibility = Visibility.Hidden;
+                        break;
+                    }
+                case 1:
+                    {
+                        Canvas.SetLeft(this.BlackTens, Canvas.GetLeft(this.BlackTens) + ChangeOne);
+                        this.BlackTens.Source = new BitmapImage(new Uri("/Images/Numbers/1.png", UriKind.Relative));
+                        this.BlackTens.Visibility = Visibility.Visible;
+                        break;
+                    }
+                case 2:
+                    {
+                        Canvas.SetLeft(this.BlackTens, Canvas.GetLeft(this.BlackUnits) - ChangeAnother);
+                        this.BlackTens.Source = new BitmapImage(new Uri("/Images/Numbers/2.png", UriKind.Relative));
+                        this.BlackTens.Visibility = Visibility.Visible;
+                        break;
+                    }
+                case 3:
+                    {
+                        Canvas.SetLeft(this.BlackTens, Canvas.GetLeft(this.BlackUnits) - ChangeAnother);
+                        this.BlackTens.Source = new BitmapImage(new Uri("/Images/Numbers/3.png", UriKind.Relative));
+                        this.BlackTens.Visibility = Visibility.Visible;
+                        break;
+                    }
+                case 4:
+                    {
+                        Canvas.SetLeft(this.BlackTens, Canvas.GetLeft(this.BlackUnits) - ChangeAnother);
+                        this.BlackTens.Source = new BitmapImage(new Uri("/Images/Numbers/4.png", UriKind.Relative));
+                        this.BlackTens.Visibility = Visibility.Visible;
+                        break;
+                    }
+                case 5:
+                    {
+                        Canvas.SetLeft(this.BlackTens, Canvas.GetLeft(this.BlackUnits) - ChangeAnother);
+                        this.BlackTens.Source = new BitmapImage(new Uri("/Images/Numbers/5.png", UriKind.Relative));
+                        this.BlackTens.Visibility = Visibility.Visible;
+                        break;
+                    }
+                case 6:
+                    {
+                        Canvas.SetLeft(this.BlackTens, Canvas.GetLeft(this.BlackUnits) - ChangeAnother);
+                        this.BlackTens.Source = new BitmapImage(new Uri("/Images/Numbers/6.png", UriKind.Relative));
+                        this.BlackTens.Visibility = Visibility.Visible;
+                        break;
+                    }
+            }
+            switch (BlackUnits)
+            {
+                case 0:
+                    {
+                        this.BlackUnits.Source = new BitmapImage(new Uri("/Images/Numbers/0.png", UriKind.Relative));
+                        break;
+                    }
+                case 1:
+                    {
+                        this.BlackUnits.Source = new BitmapImage(new Uri("/Images/Numbers/1.png", UriKind.Relative));
+                        break;
+                    }
+                case 2:
+                    {
+                        this.BlackUnits.Source = new BitmapImage(new Uri("/Images/Numbers/2.png", UriKind.Relative));
+                        break;
+                    }
+                case 3:
+                    {
+                        this.BlackUnits.Source = new BitmapImage(new Uri("/Images/Numbers/3.png", UriKind.Relative));
+                        break;
+                    }
+                case 4:
+                    {
+                        this.BlackUnits.Source = new BitmapImage(new Uri("/Images/Numbers/4.png", UriKind.Relative));
+                        break;
+                    }
+                case 5:
+                    {
+                        this.BlackUnits.Source = new BitmapImage(new Uri("/Images/Numbers/5.png", UriKind.Relative));
+                        break;
+                    }
+                case 6:
+                    {
+                        this.BlackUnits.Source = new BitmapImage(new Uri("/Images/Numbers/6.png", UriKind.Relative));
+                        break;
+                    }
+                case 7:
+                    {
+                        this.BlackUnits.Source = new BitmapImage(new Uri("/Images/Numbers/7.png", UriKind.Relative));
+                        break;
+                    }
+                case 8:
+                    {
+                        this.BlackUnits.Source = new BitmapImage(new Uri("/Images/Numbers/8.png", UriKind.Relative));
+                        break;
+                    }
+                case 9:
+                    {
+                        this.BlackUnits.Source = new BitmapImage(new Uri("/Images/Numbers/9.png", UriKind.Relative));
+                        break;
+                    }
+            }
+        }
     }
 }
