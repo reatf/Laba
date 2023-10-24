@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography.Xml;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Laba
 {
@@ -26,7 +19,7 @@ namespace Laba
             InitializeComponent();
             FoundMoves();
         }
-
+        private readonly GameLogic Logic = new();
         private async void MainAnimation(int Column, int Row)
         {
             const int Change = 42;
@@ -58,11 +51,10 @@ namespace Laba
                 Positions[Column, Row].Source = WhiteChip.Source;
             }
         }
-
-        private void ChangeChipsCountVisual (int WhiteTens, int WhiteUnits, int BlackTens, int BlackUnits)
+        public void ChangeChipsCountVisual (int WhiteTens, int WhiteUnits, int BlackTens, int BlackUnits)
         {
-            int ChangeOne = 10;
-            int ChangeAnother = 87;
+            int ChangeOne = 1690;
+            int ChangeAnother = 1670;
             switch(WhiteTens)
             {
                 case 0:
@@ -72,42 +64,36 @@ namespace Laba
                     }
                 case 1:
                     {
-                        Canvas.SetLeft(this.WhiteTens, Canvas.GetLeft(this.WhiteTens) + ChangeOne);
                         this.WhiteTens.Source = new BitmapImage(new Uri("/Images/Numbers/1.png", UriKind.Relative));
                         this.WhiteTens.Visibility = Visibility.Visible;
                         break;
                     }
                 case 2:
                     {
-                        Canvas.SetLeft(this.WhiteTens, Canvas.GetLeft(this.WhiteUnits) - ChangeAnother);
                         this.WhiteTens.Source = new BitmapImage(new Uri("/Images/Numbers/2.png", UriKind.Relative));
                         this.WhiteTens.Visibility = Visibility.Visible;
                         break;
                     }
                 case 3:
                     {
-                        Canvas.SetLeft(this.WhiteTens, Canvas.GetLeft(this.WhiteUnits) - ChangeAnother);
                         this.WhiteTens.Source = new BitmapImage(new Uri("/Images/Numbers/3.png", UriKind.Relative));
                         this.WhiteTens.Visibility = Visibility.Visible;
                         break;
                     }
                 case 4:
                     {
-                        Canvas.SetLeft(this.WhiteTens, Canvas.GetLeft(this.WhiteUnits) - ChangeAnother);
                         this.WhiteTens.Source = new BitmapImage(new Uri("/Images/Numbers/4.png", UriKind.Relative));
                         this.WhiteTens.Visibility = Visibility.Visible;
                         break;
                     }
                 case 5:
                     {
-                        Canvas.SetLeft(this.WhiteTens, Canvas.GetLeft(this.WhiteUnits) - ChangeAnother);
                         this.WhiteTens.Source = new BitmapImage(new Uri("/Images/Numbers/5.png", UriKind.Relative));
                         this.WhiteTens.Visibility = Visibility.Visible;
                         break;
                     }
                 case 6:
                     {
-                        Canvas.SetLeft(this.WhiteTens, Canvas.GetLeft(this.WhiteUnits) - ChangeAnother);
                         this.WhiteTens.Source = new BitmapImage(new Uri("/Images/Numbers/6.png", UriKind.Relative));
                         this.WhiteTens.Visibility = Visibility.Visible;
                         break;
@@ -175,42 +161,36 @@ namespace Laba
                     }
                 case 1:
                     {
-                        Canvas.SetLeft(this.BlackTens, Canvas.GetLeft(this.BlackTens) + ChangeOne);
                         this.BlackTens.Source = new BitmapImage(new Uri("/Images/Numbers/1.png", UriKind.Relative));
                         this.BlackTens.Visibility = Visibility.Visible;
                         break;
                     }
                 case 2:
                     {
-                        Canvas.SetLeft(this.BlackTens, Canvas.GetLeft(this.BlackUnits) - ChangeAnother);
                         this.BlackTens.Source = new BitmapImage(new Uri("/Images/Numbers/2.png", UriKind.Relative));
                         this.BlackTens.Visibility = Visibility.Visible;
                         break;
                     }
                 case 3:
                     {
-                        Canvas.SetLeft(this.BlackTens, Canvas.GetLeft(this.BlackUnits) - ChangeAnother);
                         this.BlackTens.Source = new BitmapImage(new Uri("/Images/Numbers/3.png", UriKind.Relative));
                         this.BlackTens.Visibility = Visibility.Visible;
                         break;
                     }
                 case 4:
                     {
-                        Canvas.SetLeft(this.BlackTens, Canvas.GetLeft(this.BlackUnits) - ChangeAnother);
                         this.BlackTens.Source = new BitmapImage(new Uri("/Images/Numbers/4.png", UriKind.Relative));
                         this.BlackTens.Visibility = Visibility.Visible;
                         break;
                     }
                 case 5:
                     {
-                        Canvas.SetLeft(this.BlackTens, Canvas.GetLeft(this.BlackUnits) - ChangeAnother);
                         this.BlackTens.Source = new BitmapImage(new Uri("/Images/Numbers/5.png", UriKind.Relative));
                         this.BlackTens.Visibility = Visibility.Visible;
                         break;
                     }
                 case 6:
-                    {
-                        Canvas.SetLeft(this.BlackTens, Canvas.GetLeft(this.BlackUnits) - ChangeAnother);
+                    { 
                         this.BlackTens.Source = new BitmapImage(new Uri("/Images/Numbers/6.png", UriKind.Relative));
                         this.BlackTens.Visibility = Visibility.Visible;
                         break;
@@ -269,8 +249,24 @@ namespace Laba
                         break;
                     }
             }
+            if(WhiteTens == 1)
+            {
+                Canvas.SetLeft(this.WhiteTens, ChangeOne);
+            }
+            else if(WhiteTens/10 > 1)
+            {
+                Canvas.SetLeft(this.WhiteTens, ChangeAnother);
+            }
+            if (BlackTens == 1)
+            {
+                Canvas.SetLeft(this.BlackTens, ChangeOne);
+            }
+            else if (BlackTens > 1)
+            {
+                Canvas.SetLeft(this.BlackTens, ChangeAnother);
+            }
         }
-        private void ChangeMoveVisual()
+        public void ChangeMoveVisual()
         {
             if(MoveChip.Source.ToString() == BlackChip.Source.ToString())
             {
@@ -285,7 +281,7 @@ namespace Laba
                 MoveChip.Source = new BitmapImage(new Uri("/Images/BlackChip.png", UriKind.Relative));
             }
         }
-        private void FoundMoves()
+        public void FoundMoves()
         {
             Image[,] Positions = { { A1, B1, C1, D1, E1, F1, G1, H1 },
                                    { A2, B2, C2, D2, E2, F2, G2, H2 },
@@ -296,15 +292,20 @@ namespace Laba
                                    { A7, B7, C7, D7, E7, F7, G7, H7 },
                                    { A8, B8, C8, D8, E8, F8, G8, H8 } };
 
-            GameLogic Logic = new();
             Logic.AvailableMoves(out List<Coordinates>? AvailableMoves);
-            foreach(var Coordinates in AvailableMoves)
+            if (AvailableMoves.Count > 0)
             {
-                Positions[Coordinates.Row, Coordinates.Column].Visibility = Visibility.Visible;
+                foreach (var Coordinates in AvailableMoves)
+                {
+                    Positions[Coordinates.Row, Coordinates.Column].Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                NextTurn();
             }
         }
-
-        private void ChipPlace(object sender, MouseButtonEventArgs e)
+        private async void ChipPlace(object sender, MouseButtonEventArgs e)
         {
             Image GetImage = (Image) sender;
             if(GetImage.Source.ToString() == HintMove.Source.ToString())
@@ -323,7 +324,6 @@ namespace Laba
                     {
                         if (Positions[Row, Column].Name == GetImage.Name)
                         {
-                            GameLogic Logic = new();
                             List<Coordinates> Reversi = Logic.GetReversiChips(Row, Column, out int Turn);
                             if (Turn == 1)
                             {
@@ -354,7 +354,22 @@ namespace Laba
                         }
                     }
                 }
+                await Task.Delay(400);
+                NextTurn();
             }
+        }
+        private void NextTurn()
+        {
+            ChangeMoveVisual();
+            Logic.ChangeTurn();
+            Logic.ChipsCount(out int WhiteTens, out int WhiteUnits, out int BlackTens, out int BlackUnits);
+            ChangeChipsCountVisual(WhiteTens, WhiteUnits, BlackTens, BlackUnits);
+            FoundMoves();
+        }
+        public void End()
+        {
+            NavigationService.RemoveBackEntry();
+            NavigationService.Navigate(new Uri("/Pages/EndPage.xaml", UriKind.Relative));
         }
     }
 }
