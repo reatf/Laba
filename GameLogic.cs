@@ -11,6 +11,7 @@ using System.ComponentModel;
 using Google.Protobuf.WellKnownTypes;
 using MySqlX.XDevAPI.Relational;
 using System.Numerics;
+using System.Windows.Controls;
 
 namespace Laba
 {
@@ -27,29 +28,16 @@ namespace Laba
             White = 1,
             Black = 2,
         }
-        private int[,] Board = { { 0, 0, 0, 0, 0, 0, 0, 0},
-                                 { 0, 0, 0, 0, 0, 0, 0, 0},
-                                 { 0, 0, 0, 0, 0, 0, 0, 0},
-                                 { 0, 0, 0, 2, 1, 0, 0, 0},
-                                 { 0, 0, 0, 1, 2, 0, 0, 0},
-                                 { 0, 0, 0, 0, 0, 0, 0, 0},
-                                 { 0, 0, 0, 0, 0, 0, 0, 0},
-                                 { 0, 0, 0, 0, 0, 0, 0, 0} };
-        public int this[int Column, int Row]
-        {
-            get { return Board[Column, Row]; }
-            set { Board[Column, Row] = value; }
-        }
+        private readonly int[,] Board = { { 0, 0, 0, 0, 0, 0, 0, 0},
+                                          { 0, 0, 0, 0, 0, 0, 0, 0},
+                                          { 0, 0, 0, 0, 0, 0, 0, 0},
+                                          { 0, 0, 0, 2, 1, 0, 0, 0},
+                                          { 0, 0, 0, 1, 2, 0, 0, 0},
+                                          { 0, 0, 0, 0, 0, 0, 0, 0},
+                                          { 0, 0, 0, 0, 0, 0, 0, 0},
+                                          { 0, 0, 0, 0, 0, 0, 0, 0} };
+        private int EndGame = 0;
         private int Turn = (int)Positions.Black;
-        public int ChangeTurn
-        {
-            get { return Turn; }
-            set
-            {
-                if (Turn == (int)Positions.Black) Turn = (int)Positions.White;
-                else Turn = (int)Positions.Black;
-            }
-        }
         public void AvailableMoves(out List<Coordinates>? AvailableMoves)
         {
             AvailableMoves = new List<Coordinates>();
@@ -60,13 +48,23 @@ namespace Laba
                     if (CheckMove(Row, Column))
                     {
                         AvailableMoves.Add(new Coordinates(Row, Column));
+                        EndGame = 0;
                     }
                 }
             }
+            if (AvailableMoves.Count == 0)
+            {
+                EndGame++;
+            }
+            if(EndGame == 2)
+            {
+                GamePage Visual = new();
+                Visual.End();
+            }
         }
-        public bool CheckMove(int Column, int Row)
+        public bool CheckMove(int Row, int Column)
         {
-            if (Row < 0 || Row >= Board.GetLength(0) || Column < 0 || Column >= Board.GetLength(1) || Board[Row, Column] != (int)Positions.Space)
+            if (Board[Row, Column] != (int)Positions.Space)
             {
                 return false;
             }
@@ -268,6 +266,32 @@ namespace Laba
             }
             CurrentTurn = Turn;
             return ResultChips;
+        }
+        public void ChangeTurn()
+        {
+            Turn = (Turn == (int)Positions.Black) ? (int)Positions.White : (int)Positions.Black;
+        }
+        public void ChipsCount(out int WhiteTens, out int WhiteUnits, out int BlackTens, out int BlackUnits)
+        {
+            int WhiteChips = 0, BlackChips = 0;
+            for(int Row = 0; Row< Board.GetLength(0); Row++)
+            {
+                for(int Column = 0;  Column < Board.GetLength(1); Column++)
+                {
+                    if (Board[Row, Column] == (int)Positions.Black)
+                    {
+                        BlackChips++;
+                    }
+                    else if (Board[Row, Column] == (int)Positions.White)
+                    {
+                        WhiteChips++;
+                    }
+                }
+            }
+            WhiteTens = WhiteChips / 10;
+            WhiteUnits = WhiteChips % 10;
+            BlackTens = BlackChips / 10;
+            BlackUnits = BlackChips % 10;
         }
     }
 }
