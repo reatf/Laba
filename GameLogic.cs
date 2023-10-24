@@ -40,7 +40,7 @@ namespace Laba
             get { return Board[Column, Row]; }
             set { Board[Column, Row] = value; }
         }
-        private int Turn = (int) Positions.Black;
+        private int Turn = (int)Positions.Black;
         public int ChangeTurn
         {
             get { return Turn; }
@@ -53,9 +53,9 @@ namespace Laba
         public void AvailableMoves(out List<Coordinates>? AvailableMoves)
         {
             AvailableMoves = new List<Coordinates>();
-            for (int Row = 0; Row < Board.GetLength(0);Row++)
+            for (int Row = 0; Row < Board.GetLength(0); Row++)
             {
-                for (int Column = 0; Column < Board.GetLength(1);Column++)
+                for (int Column = 0; Column < Board.GetLength(1); Column++)
                 {
                     if (CheckMove(Row, Column))
                     {
@@ -66,7 +66,7 @@ namespace Laba
         }
         public bool CheckMove(int Column, int Row)
         {
-            if (Row < 0 || Row >= Board.GetLength(0) || Column < 0 || Column >= Board.GetLength(1) || Board[Row, Column] != (int) Positions.Space)
+            if (Row < 0 || Row >= Board.GetLength(0) || Column < 0 || Column >= Board.GetLength(1) || Board[Row, Column] != (int)Positions.Space)
             {
                 return false;
             }
@@ -84,23 +84,23 @@ namespace Laba
                     int ColumnVector = Column + Weight;
                     bool FoundOpponent = false;
 
-                    while ( RowVector >= 0 && RowVector < Board.GetLength(0) && ColumnVector >= 0 && ColumnVector < Board.GetLength(1))
+                    while (RowVector >= 0 && RowVector < Board.GetLength(0) && ColumnVector >= 0 && ColumnVector < Board.GetLength(1))
                     {
                         if (Board[RowVector, ColumnVector] == Turn)
-                        {
-                            FoundOpponent = true;
-                        }
-                        else if (Board[RowVector, ColumnVector] == (int) Positions.Space)
-                        {
-                            break;
-                        }
-                        else
                         {
                             if (FoundOpponent)
                             {
                                 return true;
                             }
                             break;
+                        }
+                        else if (Board[RowVector, ColumnVector] == (int)Positions.Space)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            FoundOpponent = true;
                         }
                         RowVector += Hight;
                         ColumnVector += Weight;
@@ -109,11 +109,11 @@ namespace Laba
             }
             return false;
         }
-        public static void Start(int Index, out Leaderboard Player)
+        public static void StartLeaderboard(int Index, out Leaderboard Player)
         {
             Data.SetTop(Index, out Player.Nick, out Player.Wins);
         }
-        public static void Check(out bool Key)
+        public static void CheckNickNames(out bool Key)
         {
             if (String.IsNullOrWhiteSpace(Save.Player1) || String.IsNullOrWhiteSpace(Save.Player2)
                 || (Save.Player1.Length < 3 || Save.Player1.Length > 30) || (Save.Player2.Length < 3 || Save.Player2.Length > 30)
@@ -126,6 +126,148 @@ namespace Laba
                 Key = true;
             }
         }
+        public List<Coordinates> GetReversiChips(int Row, int Column, out int CurrentTurn)
+        {
+            Board[Row, Column] = Turn;
+            List<Coordinates> ResultChips = new();
+            int key = 0;
+            for (int Hight = -1; Hight <= 1; Hight++)
+            {
+                for (int Weight = -1; Weight <= 1; Weight++)
+                {
+                    if (Hight == 0 && Weight == 0)
+                    {
+                        continue;
+                    }
 
+                    int RowVector = Row + Hight;
+                    int ColumnVector = Column + Weight;
+                    bool FoundOpponent = false;
+
+                    while (RowVector >= 0 && RowVector < Board.GetLength(0) && ColumnVector >= 0 && ColumnVector < Board.GetLength(1))
+                    {
+                        if (Board[RowVector, ColumnVector] == Turn)
+                        {
+                            if (FoundOpponent)
+                            {
+                                switch(key)
+                                {
+                                    case 0:
+                                        {
+                                            int MaxRow = RowVector + 1;
+                                            int MaxColumn = ColumnVector + 1;
+                                            while (MaxRow != Row || MaxColumn != Column)
+                                            {
+                                                ResultChips.Add(new Coordinates(MaxRow, MaxColumn));
+                                                MaxRow++;
+                                                MaxColumn++;
+                                            }
+                                            break;
+                                        }
+                                    case 1:
+                                        {
+                                            int MaxRow = RowVector + 1;
+                                            int MaxColumn = ColumnVector;
+                                            while (MaxRow != Row || MaxColumn != Column)
+                                            {
+                                                ResultChips.Add(new Coordinates(MaxRow, MaxColumn));
+                                                MaxRow++;
+                                            }
+                                            break;
+                                        }
+                                    case 2:
+                                        {
+                                            int MaxRow = RowVector + 1;
+                                            int MaxColumn = ColumnVector - 1;
+                                            while (MaxRow != Row || MaxColumn != Column)
+                                            {
+                                                ResultChips.Add(new Coordinates(MaxRow, MaxColumn));
+                                                MaxRow++;
+                                                MaxColumn--;
+                                            }
+                                            break;
+                                        }
+                                    case 3:
+                                        {
+                                            int MaxRow = RowVector;
+                                            int MaxColumn = ColumnVector + 1;
+                                            while (MaxRow != Row || MaxColumn != Column)
+                                            {
+                                                ResultChips.Add(new Coordinates(MaxRow, MaxColumn));
+                                                MaxColumn++;
+                                            }
+                                            break;
+                                        }
+                                    case 4:
+                                        {
+                                            int MaxRow = RowVector;
+                                            int MaxColumn = ColumnVector - 1;
+                                            while (MaxRow != Row || MaxColumn != Column)
+                                            {
+                                                ResultChips.Add(new Coordinates(MaxRow, MaxColumn));
+                                                MaxColumn--;
+                                            }
+                                            break;
+                                        }
+                                    case 5:
+                                        {
+                                            int MaxRow = RowVector - 1;
+                                            int MaxColumn = ColumnVector + 1;
+                                            while (MaxRow != Row || MaxColumn != Column)
+                                            {
+                                                ResultChips.Add(new Coordinates(MaxRow, MaxColumn));
+                                                MaxRow--;
+                                                MaxColumn++;
+                                            }
+                                            break;
+                                        }
+                                    case 6:
+                                        {
+                                            int MaxRow = RowVector - 1;
+                                            int MaxColumn = ColumnVector;
+                                            while (MaxRow != Row || MaxColumn != Column)
+                                            {
+                                                ResultChips.Add(new Coordinates(MaxRow, MaxColumn));
+                                                MaxRow--;
+                                            }
+                                            break;
+                                        }
+                                    case 7:
+                                        {
+                                            int MaxRow = RowVector - 1;
+                                            int MaxColumn = ColumnVector - 1;
+                                            while (MaxRow != Row || MaxColumn != Column)
+                                            {
+                                                ResultChips.Add(new Coordinates(MaxRow, MaxColumn));
+                                                MaxRow--;
+                                                MaxColumn--;
+                                            }
+                                            break;
+                                        }
+                                }
+                            }
+                            break;
+                        }
+                        else if (Board[RowVector, ColumnVector] == (int)Positions.Space)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            FoundOpponent = true;
+                        }
+                        RowVector += Hight;
+                        ColumnVector += Weight;
+                    }
+                    key++;
+                }
+            }
+            foreach(var Position in ResultChips)
+            {
+                Board[Position.Row, Position.Column] = Turn;
+            }
+            CurrentTurn = Turn;
+            return ResultChips;
+        }
     }
 }
