@@ -68,12 +68,35 @@ namespace Laba
             TransformTop.BeginAnimation(TranslateTransform.YProperty, null);
             Canvas.SetTop(EnterButton, Canvas.GetTop(EnterButton) + Vector);
         }
+        public async void BoardAnimation(int Vector)
+        {
+            TranslateTransform TransformTop = new();
+            DoubleAnimation Position = new(0, Vector, TimeSpan.FromSeconds(2));
+
+            Board.RenderTransform = TransformTop;
+            TransformTop.BeginAnimation(TranslateTransform.YProperty, Position);
+            await Task.Delay(2000);
+
+            TransformTop.BeginAnimation(TranslateTransform.YProperty, null);
+            Canvas.SetTop(Board, Canvas.GetTop(Board) + Vector);
+        }
+        public async void ChipCountAnimation(int Vector)
+        {
+            TranslateTransform TransformLeft = new();
+            DoubleAnimation Position = new(0, Vector, TimeSpan.FromSeconds(2));
+
+            ChipCount.RenderTransform = TransformLeft;
+            TransformLeft.BeginAnimation(TranslateTransform.XProperty, Position);
+            await Task.Delay(2000);
+
+            // TransformLeft.BeginAnimation(TranslateTransform.XProperty, null);
+            Canvas.SetLeft(ChipCount, Canvas.GetLeft(ChipCount) + Vector);
+        }
         private void EnterButtonClick(object sender, MouseButtonEventArgs e)
         {
-            bool Key;
             Save.Player1 = Player1Nick.Text;
             Save.Player2 = Player2Nick.Text;
-            GameLogic.Check(out Key);
+            GameLogic.CheckNickNames(out bool Key);
             if(Key)
             {
                 StartGame();
@@ -90,14 +113,17 @@ namespace Laba
             EnterButtonAnimation(-90);
             await Task.Delay(1100);
             MainAnimation(-500);
+            await Task.Delay(1100);
+            BoardAnimation(-1191);
+            ChipCountAnimation(-668);
+            await Task.Delay(2100);
+            NavigationService.RemoveBackEntry();
+            NavigationService.Navigate(new Uri("/Pages/GamePage.xaml", UriKind.Relative));
         }
         public void Error()
         {
             ErrorName.Visibility = Visibility.Visible;
         }
-        public void BoardAnimation(int Vector)
-        {
 
-        }
     }
 }

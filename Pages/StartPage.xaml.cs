@@ -25,7 +25,7 @@ namespace Laba
 
             for (int Index = 0; Index < TopNicks.Length; Index++)
             {
-                GameLogic.Start(Index, out Leaderboard Player);
+                GameLogic.StartLeaderboard(Index, out Leaderboard Player);
                 if (Player.Wins == 0)
                 {
                     break;
