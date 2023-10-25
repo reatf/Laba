@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:Laba"
       mc:Ignorable="d" 
       Width="{x:Static SystemParameters.PrimaryScreenWidth}"  
       Height="{x:Static SystemParameters.PrimaryScreenHeight}"
@@ -31,7 +32,7 @@
             <!--#region Move-->
             <Image x:Name="Move" Source="/Images/Move.png" Stretch="Fill" Canvas.Left="122" Canvas.Top="269"/>
             <Image x:Name="MoveChip" Source="/Images/BlackChip.png" Stretch="UniformToFill" Width="200" Canvas.Left="149" Canvas.Top="592" HorizontalAlignment="Center" VerticalAlignment="Top" />
-            <Image x:Name="MoveOfPlayer" Source="/Images/BlackMove.png" Stretch="Fill" Canvas.Left="13" Canvas.Top="426"/>
+            <Image x:Name="MoveOfPlayer" Source="/Images/Player1.png" Stretch="Fill" Canvas.Left="49" Canvas.Top="427"/>
             <!--#endregion-->
             <!--#region Board-->
             <!--#region Row1-->
