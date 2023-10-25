@@ -54,7 +54,7 @@ namespace Laba
         public void ChangeChipsCountVisual (int WhiteTens, int WhiteUnits, int BlackTens, int BlackUnits)
         {
             int ChangeOne = 1690;
-            int ChangeAnother = 1670;
+            int ChangeAnother = 1674;
             switch(WhiteTens)
             {
                 case 0:
@@ -253,7 +253,7 @@ namespace Laba
             {
                 Canvas.SetLeft(this.WhiteTens, ChangeOne);
             }
-            else if(WhiteTens/10 > 1)
+            else if(WhiteTens > 1)
             {
                 Canvas.SetLeft(this.WhiteTens, ChangeAnother);
             }
@@ -270,18 +270,16 @@ namespace Laba
         {
             if(MoveChip.Source.ToString() == BlackChip.Source.ToString())
             {
-                Canvas.SetLeft(MoveOfPlayer, Canvas.GetLeft(MoveOfPlayer) + 36);
-                MoveOfPlayer.Source = new BitmapImage(new Uri("/Images/WhiteMove.png", UriKind.Relative));
+                MoveOfPlayer.Source = new BitmapImage(new Uri("/Images/Player2.png", UriKind.Relative));
                 MoveChip.Source = new BitmapImage(new Uri("/Images/WhiteChip.png", UriKind.Relative));
             }
             else
             {
-                Canvas.SetLeft(MoveOfPlayer, Canvas.GetLeft(MoveOfPlayer) - 36);
-                MoveOfPlayer.Source = new BitmapImage(new Uri("/Images/BlackMove.png", UriKind.Relative));
+                MoveOfPlayer.Source = new BitmapImage(new Uri("/Images/Player1.png", UriKind.Relative));
                 MoveChip.Source = new BitmapImage(new Uri("/Images/BlackChip.png", UriKind.Relative));
             }
         }
-        public void FoundMoves()
+        public async void FoundMoves()
         {
             Image[,] Positions = { { A1, B1, C1, D1, E1, F1, G1, H1 },
                                    { A2, B2, C2, D2, E2, F2, G2, H2 },
@@ -292,13 +290,19 @@ namespace Laba
                                    { A7, B7, C7, D7, E7, F7, G7, H7 },
                                    { A8, B8, C8, D8, E8, F8, G8, H8 } };
 
-            Logic.AvailableMoves(out List<Coordinates>? AvailableMoves);
+            Logic.AvailableMoves(out List<Coordinates>? AvailableMoves, out bool Ending);
             if (AvailableMoves.Count > 0)
             {
                 foreach (var Coordinates in AvailableMoves)
                 {
                     Positions[Coordinates.Row, Coordinates.Column].Visibility = Visibility.Visible;
                 }
+            }
+            else if(Ending)
+            {
+                await Task.Delay(1000);
+
+                End();
             }
             else
             {
@@ -324,7 +328,7 @@ namespace Laba
                     {
                         if (Positions[Row, Column].Name == GetImage.Name)
                         {
-                            List<Coordinates> Reversi = Logic.GetReversiChips(Row, Column, out int Turn);
+                            List<Coordinates> Reversi = Logic.GetReversiChips(new Coordinates(Row, Column), out int Turn);
                             if (Turn == 1)
                             {
                                 Positions[Row, Column].Source = new BitmapImage(new Uri("/Images/WhiteChip.png", UriKind.Relative));
@@ -368,8 +372,9 @@ namespace Laba
         }
         public void End()
         {
-            NavigationService.RemoveBackEntry();
-            NavigationService.Navigate(new Uri("/Pages/EndPage.xaml", UriKind.Relative));
+            NavigationService Navigate = this.NavigationService;
+            Navigate.RemoveBackEntry();
+            Navigate.Navigate(new Uri("/Pages/EndPage.xaml", UriKind.Relative));
         }
     }
 }
