@@ -38,9 +38,10 @@ namespace Laba
                                           { 0, 0, 0, 0, 0, 0, 0, 0} };
         private int EndGame = 0;
         private int Turn = (int)Positions.Black;
-        public void AvailableMoves(out List<Coordinates>? AvailableMoves)
+        public void AvailableMoves(out List<Coordinates>? AvailableMoves, out bool Ending)
         {
             AvailableMoves = new List<Coordinates>();
+            Ending = false;
             for (int Row = 0; Row < Board.GetLength(0); Row++)
             {
                 for (int Column = 0; Column < Board.GetLength(1); Column++)
@@ -58,8 +59,23 @@ namespace Laba
             }
             if(EndGame == 2)
             {
-                GamePage Visual = new();
-                Visual.End();
+                Ending = true;
+                                Save.BlackChips = 0;
+                Save.WhiteChips = 0;
+                for (int Row = 0; Row < Board.GetLength(0); Row++)
+                {
+                    for (int Column = 0; Column< Board.GetLength(1); Column++)
+                    {
+                        if (Board[Row, Column] == (int)Positions.Black)
+                        {
+                            Save.BlackChips++;
+                        }
+                        else if(Board[Row, Column] == (int)Positions.White)
+                        {
+                            Save.WhiteChips++;
+                        }
+                    }
+                }
             }
         }
         public bool CheckMove(int Row, int Column)
@@ -124,9 +140,9 @@ namespace Laba
                 Key = true;
             }
         }
-        public List<Coordinates> GetReversiChips(int Row, int Column, out int CurrentTurn)
+        public List<Coordinates> GetReversiChips(Coordinates Chip, out int CurrentTurn)
         {
-            Board[Row, Column] = Turn;
+            Board[Chip.Row, Chip.Column] = Turn;
             List<Coordinates> ResultChips = new();
             int key = 0;
             for (int Hight = -1; Hight <= 1; Hight++)
@@ -138,8 +154,8 @@ namespace Laba
                         continue;
                     }
 
-                    int RowVector = Row + Hight;
-                    int ColumnVector = Column + Weight;
+                    int RowVector = Chip.Row + Hight;
+                    int ColumnVector = Chip.Column + Weight;
                     bool FoundOpponent = false;
 
                     while (RowVector >= 0 && RowVector < Board.GetLength(0) && ColumnVector >= 0 && ColumnVector < Board.GetLength(1))
@@ -154,7 +170,7 @@ namespace Laba
                                         {
                                             int MaxRow = RowVector + 1;
                                             int MaxColumn = ColumnVector + 1;
-                                            while (MaxRow != Row || MaxColumn != Column)
+                                            while (MaxRow != Chip.Row || MaxColumn != Chip.Column)
                                             {
                                                 ResultChips.Add(new Coordinates(MaxRow, MaxColumn));
                                                 MaxRow++;
@@ -166,7 +182,7 @@ namespace Laba
                                         {
                                             int MaxRow = RowVector + 1;
                                             int MaxColumn = ColumnVector;
-                                            while (MaxRow != Row || MaxColumn != Column)
+                                            while (MaxRow != Chip.Row || MaxColumn != Chip.Column)
                                             {
                                                 ResultChips.Add(new Coordinates(MaxRow, MaxColumn));
                                                 MaxRow++;
@@ -177,7 +193,7 @@ namespace Laba
                                         {
                                             int MaxRow = RowVector + 1;
                                             int MaxColumn = ColumnVector - 1;
-                                            while (MaxRow != Row || MaxColumn != Column)
+                                            while (MaxRow != Chip.Row || MaxColumn != Chip.Column)
                                             {
                                                 ResultChips.Add(new Coordinates(MaxRow, MaxColumn));
                                                 MaxRow++;
@@ -189,7 +205,7 @@ namespace Laba
                                         {
                                             int MaxRow = RowVector;
                                             int MaxColumn = ColumnVector + 1;
-                                            while (MaxRow != Row || MaxColumn != Column)
+                                            while (MaxRow != Chip.Row || MaxColumn != Chip.Column)
                                             {
                                                 ResultChips.Add(new Coordinates(MaxRow, MaxColumn));
                                                 MaxColumn++;
@@ -200,7 +216,7 @@ namespace Laba
                                         {
                                             int MaxRow = RowVector;
                                             int MaxColumn = ColumnVector - 1;
-                                            while (MaxRow != Row || MaxColumn != Column)
+                                            while (MaxRow != Chip.Row || MaxColumn != Chip.Column)
                                             {
                                                 ResultChips.Add(new Coordinates(MaxRow, MaxColumn));
                                                 MaxColumn--;
@@ -211,7 +227,7 @@ namespace Laba
                                         {
                                             int MaxRow = RowVector - 1;
                                             int MaxColumn = ColumnVector + 1;
-                                            while (MaxRow != Row || MaxColumn != Column)
+                                            while (MaxRow != Chip.Row || MaxColumn != Chip.Column)
                                             {
                                                 ResultChips.Add(new Coordinates(MaxRow, MaxColumn));
                                                 MaxRow--;
@@ -223,7 +239,7 @@ namespace Laba
                                         {
                                             int MaxRow = RowVector - 1;
                                             int MaxColumn = ColumnVector;
-                                            while (MaxRow != Row || MaxColumn != Column)
+                                            while (MaxRow != Chip.Row || MaxColumn != Chip.Column)
                                             {
                                                 ResultChips.Add(new Coordinates(MaxRow, MaxColumn));
                                                 MaxRow--;
@@ -234,7 +250,7 @@ namespace Laba
                                         {
                                             int MaxRow = RowVector - 1;
                                             int MaxColumn = ColumnVector - 1;
-                                            while (MaxRow != Row || MaxColumn != Column)
+                                            while (MaxRow != Chip.Row || MaxColumn != Chip.Column)
                                             {
                                                 ResultChips.Add(new Coordinates(MaxRow, MaxColumn));
                                                 MaxRow--;
@@ -292,6 +308,10 @@ namespace Laba
             WhiteUnits = WhiteChips % 10;
             BlackTens = BlackChips / 10;
             BlackUnits = BlackChips % 10;
+        }
+        public static void Winner(string PlayerWinner)
+        {
+            Data.SetWinner(PlayerWinner);
         }
     }
 }
