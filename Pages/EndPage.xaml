@@ -1,0 +1,29 @@
+﻿<Page x:Class="Laba.EndPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Laba"
+      mc:Ignorable="d"
+      Width="{x:Static SystemParameters.PrimaryScreenWidth}"  
+      Height="{x:Static SystemParameters.PrimaryScreenHeight}"
+      Title="EndPage"
+      Loaded="Start">
+
+    <Grid Background="#FFFFF5E4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Canvas>
+            <Image x:Name="ContinueButton" Source="/Images/Continue.png" Stretch="None" Panel.ZIndex="1" Canvas.Left="31" Canvas.Top="1102" HorizontalAlignment="Center" VerticalAlignment="Top" MouseLeftButtonDown="Menu"/>
+            <Image x:Name="BakcGround" Source="/Images/WinBackground.png" Stretch="Uniform" Height="1725" Width="2711" Canvas.Left="-279" Canvas.Top="-297" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="0"/>
+            <Image x:Name="Congratulations" Source="/Images/Congrats.png" Stretch="Uniform" Height="153" Canvas.Left="85" Canvas.Top="41" Width="940" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Image x:Name="WinText" Source="/Images/WinText.png" Stretch="Uniform" Canvas.Left="1136" Canvas.Top="392" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Image x:Name="DrawText" Source="/Images/DrawText.png" Stretch="Uniform" Canvas.Left="923" Canvas.Top="266" Height="153" Width="933" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
+            <Label x:Name="WinPlayer" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="95" HorizontalContentAlignment="Center" Height="106" Canvas.Left="40" Canvas.Top="240" Width="1840" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        </Canvas>
+    </Grid>
+</Page>
