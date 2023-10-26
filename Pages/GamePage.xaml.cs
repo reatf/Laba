@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySqlX.XDevAPI.Relational;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,8 +19,9 @@ namespace Laba
         {
             InitializeComponent();
             FoundMoves();
+            LoadedSave();
         }
-        private readonly GameLogic Logic = new();
+        private GameLogic Logic = new();
         private async void MainAnimation(int Column, int Row)
         {
             const int Change = 42;
@@ -372,9 +374,246 @@ namespace Laba
         }
         public void End()
         {
+            Logic = null;
             NavigationService Navigate = this.NavigationService;
             Navigate.RemoveBackEntry();
             Navigate.Navigate(new Uri("/Pages/EndPage.xaml", UriKind.Relative));
+        }
+
+        private void VisualMenu(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Escape && Saving.Visibility == Visibility.Visible)
+            {
+                Saving.Visibility = Visibility.Hidden;
+                SaveMenu.Visibility = Visibility.Visible;
+            }
+            else if(e.Key == Key.Escape && (SaveMenu.Visibility == Visibility.Visible || LoadingMenu.Visibility == Visibility.Visible))
+            {
+                LoadingMenu.Visibility = Visibility.Hidden;
+                SaveMenu.Visibility = Visibility.Hidden;
+                Menu.Visibility = Visibility.Visible;
+            }
+            else if (e.Key == Key.Escape && Menu.Visibility == Visibility.Hidden)
+            {
+                Menu.Visibility = Visibility.Visible;
+            }
+            else if(e.Key == Key.Escape && Menu.Visibility == Visibility.Visible)
+            {
+                Menu.Visibility = Visibility.Hidden;
+            }
+        }
+        private void GamePageLoaded(object sender, RoutedEventArgs e)
+        {
+            var WindowMain = Window.GetWindow(this);
+            WindowMain.KeyDown += VisualMenu;
+        }
+        private void ReturnGame(object sender, MouseButtonEventArgs e)
+        {
+            Menu.Visibility = Visibility.Hidden;
+        }
+        private void ExitGame(object sender, MouseButtonEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+        private void SaveGame(object sender, MouseButtonEventArgs e)
+        {
+            Menu.Visibility = Visibility.Hidden;
+            SaveMenu.Visibility = Visibility.Visible;
+            SaveMenuBackground.Visibility = Visibility.Visible;
+            UIElement[] SaveBack = { SaveBack1, SaveBack2, SaveBack3, SaveBack4,
+                                     SaveBack5, SaveBack6, SaveBack7, SaveBack8 };
+            Label[] SaveText = { SaveText1, SaveText2, SaveText3, SaveText4,
+                                 SaveText5, SaveText6, SaveText7, SaveText8 };
+            GameLogic.GetSavesNumber(out int SaveNumber, out List<string>? SavesName);
+            if(SaveNumber != 8)
+            {
+                for(int i = 0; i < SaveNumber+1; i++)
+                {
+                    SaveBack[i].Visibility = Visibility.Visible;
+                    SaveText[i].Content = "Сохранить игру";
+                    SaveText[i].Visibility= Visibility.Visible;
+                }
+                for(int i = 0; i < SaveNumber; i++)
+                {
+                    SaveText[i].Content = SavesName[i];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < SaveNumber; i++)
+                {
+                    SaveBack[i].Visibility = Visibility.Visible;
+                    SaveText[i].Content = SavesName[i];
+                    SaveText[i].Visibility = Visibility.Visible;
+                }
+            }
+        }
+        private void SavingGame(object sender, MouseButtonEventArgs e)
+        {
+            Label[] SaveText = { SaveText1, SaveText2, SaveText3, SaveText4,
+                                 SaveText5, SaveText6, SaveText7, SaveText8 };
+            Label GetLabel = (Label)sender;
+            SavingText.Text = "";
+            Saving.Visibility = Visibility.Visible;
+            SaveMenu.Visibility = Visibility.Hidden;
+            for (int i = 0; i < SaveText.Length; i++)
+            {
+                if (SaveText[i].Name == GetLabel.Name)
+                {
+                    Save.PreviousSavingName = SaveText[i].Content.ToString();
+                }
+            }
+        }
+        private void GetSeed()
+        {
+            Logic.GetInformation();
+        }
+        private void SavingEnter(object sender, MouseButtonEventArgs e)
+        {
+            GetSeed();
+            Save.SavingName = SavingText.Text;
+            GameLogic.CheckSaveName(out bool Except);
+            if(Except)
+            {
+                Label[] SaveText = { SaveText1, SaveText2, SaveText3, SaveText4,
+                                 SaveText5, SaveText6, SaveText7, SaveText8 };
+                for (int i = 0; i < SaveText.Length;i++)
+                {
+                    if (SaveText[i].Content.ToString() == Save.PreviousSavingName)
+                    {
+                        if (SaveText[i].Content != "Сохранить игру")
+                        {
+                            GameLogic.OverwriteSave();
+                        }
+                        else
+                        {
+                            GameLogic.WriteSave();
+                        }
+                    }
+                }
+                Saving.Visibility = Visibility.Hidden;
+                Menu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                SavingText.Text = "";
+            }
+        }
+        private void LoadSave(object sender, MouseButtonEventArgs e)
+        {
+            Menu.Visibility = Visibility.Hidden;
+            LoadingMenu.Visibility = Visibility.Visible;
+            LoadingMenuBackground.Visibility = Visibility.Visible;
+            UIElement[] SaveBack = { LoadBack1, LoadBack2, LoadBack3, LoadBack4,
+                                     LoadBack5, LoadBack6, LoadBack7, LoadBack8 };
+            Label[] LoadText = { LoadText1, LoadText2, LoadText3, LoadText4,
+                                 LoadText5, LoadText6, LoadText7, LoadText8 };
+            GameLogic.GetSavesNumber(out int SaveNumber, out List<string>? SavesName);
+            for (int i = 0; i < SaveNumber; i++)
+            {
+                SaveBack[i].Visibility = Visibility.Visible;
+                LoadText[i].Content = SavesName[i];
+                LoadText[i].Visibility = Visibility.Visible;
+            }
+        }
+        private void LoadingSave(object sender, MouseButtonEventArgs e)
+        {
+            Label GetLabel = (Label)sender;
+            Save.PreviousSavingName = GetLabel.Content.ToString();
+
+            Label[] LoadText = { LoadText1, LoadText2, LoadText3, LoadText4,
+                                 LoadText5, LoadText6, LoadText7, LoadText8 };
+
+            for (int i = 0; i < LoadText.Length; i++)
+            {
+                if (LoadText[i].Content.ToString() == Save.PreviousSavingName)
+                {
+                    Logic.LoadSave();
+                    Logic.ChipsCount(out int WhiteTens, out int WhiteUnits, out int BlackTens, out int BlackUnits);
+                    ChangeChipsCountVisual(WhiteTens, WhiteUnits, BlackTens, BlackUnits);
+
+                    CurreentMove();
+                    NullHint();
+                    FoundMoves();
+                    CurrentChips();
+                }
+            }
+            LoadingMenu.Visibility = Visibility.Hidden;
+        }
+        private void CurreentMove()
+        {
+            Logic.NowMove(out bool Key);
+            if (Key)
+            {
+                MoveOfPlayer.Source = new BitmapImage(new Uri("/Images/Player2.png", UriKind.Relative));
+                MoveChip.Source = new BitmapImage(new Uri("/Images/WhiteChip.png", UriKind.Relative));
+            }
+            else
+            {
+                MoveOfPlayer.Source = new BitmapImage(new Uri("/Images/Player1.png", UriKind.Relative));
+                MoveChip.Source = new BitmapImage(new Uri("/Images/BlackChip.png", UriKind.Relative));
+            }
+        }
+        private void CurrentChips()
+        {
+            Image[,] Positions = { { A1, B1, C1, D1, E1, F1, G1, H1 },
+                                   { A2, B2, C2, D2, E2, F2, G2, H2 },
+                                   { A3, B3, C3, D3, E3, F3, G3, H3 },
+                                   { A4, B4, C4, D4, E4, F4, G4, H4 },
+                                   { A5, B5, C5, D5, E5, F5, G5, H5 },
+                                   { A6, B6, C6, D6, E6, F6, G6, H6 },
+                                   { A7, B7, C7, D7, E7, F7, G7, H7 },
+                                   { A8, B8, C8, D8, E8, F8, G8, H8 } };
+            Logic.CurrentChip(out List<Coordinates> Chips);
+            for(int Index = 0; Index < Chips.Count; Index++)
+            {
+                if (Chips[Index].Color == 1)
+                {
+                    Positions[Chips[Index].Row, Chips[Index].Column].Visibility = Visibility.Visible;
+                    Positions[Chips[Index].Row, Chips[Index].Column].Source = new BitmapImage(new Uri("/Images/WhiteChip.png", UriKind.Relative));
+                }
+                else
+                {
+                    Positions[Chips[Index].Row, Chips[Index].Column].Visibility = Visibility.Visible;
+                    Positions[Chips[Index].Row, Chips[Index].Column].Source = new BitmapImage(new Uri("/Images/BlackChip.png", UriKind.Relative));
+                }
+            }
+        }
+        private void NullHint()
+        {
+            Image[,] Positions = { { A1, B1, C1, D1, E1, F1, G1, H1 },
+                                   { A2, B2, C2, D2, E2, F2, G2, H2 },
+                                   { A3, B3, C3, D3, E3, F3, G3, H3 },
+                                   { A4, B4, C4, D4, E4, F4, G4, H4 },
+                                   { A5, B5, C5, D5, E5, F5, G5, H5 },
+                                   { A6, B6, C6, D6, E6, F6, G6, H6 },
+                                   { A7, B7, C7, D7, E7, F7, G7, H7 },
+                                   { A8, B8, C8, D8, E8, F8, G8, H8 } };
+            for (int Row = 0; Row < Positions.GetLength(0); Row++)
+            {
+                for(int Column = 0; Column < Positions.GetLength(1); Column++)
+                {
+                    if (Positions[Row, Column].Source.ToString() == HintMove.Source.ToString())
+                    {
+                        Positions[Row, Column].Visibility = Visibility.Hidden;
+                    }
+                }
+            }
+        }
+        private void LoadedSave()
+        {
+            if(StartPage.Exception == true)
+            {
+                Logic.LoadSave();
+                Logic.ChipsCount(out int WhiteTens, out int WhiteUnits, out int BlackTens, out int BlackUnits);
+                ChangeChipsCountVisual(WhiteTens, WhiteUnits, BlackTens, BlackUnits);
+
+                CurreentMove();
+                NullHint();
+                FoundMoves();
+                CurrentChips();
+                StartPage.Exception = false;
+            }
         }
     }
 }
