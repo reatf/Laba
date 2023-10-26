@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +15,12 @@ namespace Laba
         public StartPage()
         {
             InitializeComponent();
+        }
+        private static bool LoadException = false;
+        public static bool Exception
+        {
+            get { return LoadException; }
+            set { LoadException = value; }
         }
         private void Leaderboard(object sender, RoutedEventArgs e)
         {
@@ -37,10 +44,12 @@ namespace Laba
                 }
 
             }
+            var WindowMain = Window.GetWindow(this);
+            WindowMain.KeyDown += ExitLoad;
         }
         private void Exit(object sender, MouseButtonEventArgs e)
         {
-            System.Windows.Application.Current.Shutdown();
+            Application.Current.Shutdown();
         }
         private async void StartGame(object sender, MouseButtonEventArgs e)
         {
@@ -53,8 +62,9 @@ namespace Laba
             for (int Index = 0; Index < ElementsLeft.Length; Index++) StartAnimation(ElementsLeft[Index], -3000);
             await Task.Delay(1000);
 
-            NavigationService.RemoveBackEntry();
-            NavigationService.Navigate(new Uri("/Pages/PlayersNicksPage.xaml", UriKind.Relative));
+            NavigationService Navigate = this.NavigationService;
+            Navigate.RemoveBackEntry();
+            Navigate.Navigate(new Uri("/Pages/PlayersNicksPage.xaml", UriKind.Relative));
         }
         private static void StartAnimation(UIElement Element, int Position)
         {
@@ -62,6 +72,39 @@ namespace Laba
             Element.RenderTransform = Transform;
             DoubleAnimation Xposition = new(0, Position, TimeSpan.FromSeconds(1));
             Transform.BeginAnimation(TranslateTransform.XProperty, Xposition);
+        }
+
+        private void LoadSave(object sender, MouseButtonEventArgs e)
+        {
+            LoadMenu.Visibility = Visibility.Visible;
+            SaveMenuBackground.Visibility = Visibility.Visible;
+            UIElement[] SaveBack = { SaveBack1, SaveBack2, SaveBack3, SaveBack4,
+                                     SaveBack5, SaveBack6, SaveBack7, SaveBack8 };
+            Label[] SaveText = { SaveText1, SaveText2, SaveText3, SaveText4,
+                                 SaveText5, SaveText6, SaveText7, SaveText8 };
+            GameLogic.GetSavesNumber(out int SaveNumber, out List<string>? SavesName);
+            for(int Index = 0; Index < SaveNumber; Index++)
+            {
+                SaveBack[Index].Visibility = Visibility.Visible;
+                SaveText[Index].Content = SavesName[Index];
+                SaveText[Index].Visibility = Visibility.Visible;
+            }
+        }
+        private void ExitLoad(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape && LoadMenu.Visibility == Visibility.Visible)
+            {
+                LoadMenu.Visibility = Visibility.Hidden;
+            }
+        }
+        private void LoadingSave(object sender, MouseButtonEventArgs e)
+        {
+            Label GetLabel = (Label)sender;
+            Save.PreviousSavingName = GetLabel.Content.ToString();
+            Exception = true;
+            NavigationService Navigate = this.NavigationService;
+            Navigate.RemoveBackEntry();
+            Navigate.Navigate(new Uri("/Pages/GamePage.xaml", UriKind.Relative));
         }
     }
 }
