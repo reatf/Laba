@@ -313,5 +313,85 @@ namespace Laba
         {
             Data.SetWinner(PlayerWinner);
         }
+        public static void GetSavesNumber(out int SaveNumber, out List<string>? SaveName)
+        {
+            Data.GetSaveNumber(out SaveNumber, out SaveName);
+        }
+        public static void CheckSaveName(out bool Except)
+        {
+            if(String.IsNullOrWhiteSpace(Save.SavingName) || Save.SavingName.Length < 1 || Save.SavingName.Length > 15)
+            {
+                Except = false;
+            }
+            else
+            {  
+                Data.CheckSaveName(out Except);
+            }
+        }
+        public static void OverwriteSave()
+        {
+            Data.ChangeSave();
+        }
+        public static void WriteSave()
+        {
+            Data.NewSave();
+        }
+        public void GetInformation()
+        {
+            string Information = "";
+            for(int Row = 0; Row < Board.GetLength(0); Row++)
+            {
+                for(int Column = 0; Column < Board.GetLength(1); Column++)
+                {
+                    Information += Board[Row, Column].ToString();
+                }
+            }
+            Information += Turn.ToString();
+            Save.Information = Information;
+        }
+        public void LoadSave()
+        {
+            Data.GetSave();
+            List<string> Symbol = new();
+            int SymbolIndex = 0;
+            for(int Index = 0;  Index < Board.Length; Index++)
+            {
+                Symbol.Add(Save.Information[Index].ToString());
+            }
+            for(int Row = 0; Row < Board.GetLength(0); Row++)
+            {
+                for( int Column = 0; Column < Board.GetLength(1);Column++)
+                {
+                    Board[Row, Column] = int.Parse(Symbol[SymbolIndex]);
+                    SymbolIndex++;
+                }
+            }
+            Turn = int.Parse(Save.Information[^1].ToString());
+        }
+        public void NowMove(out bool Key)
+        {
+            if(Turn != (int) Positions.Black)
+            {
+                Key = true;
+            }
+            else
+            {
+                Key = false;
+            }
+        }
+        public void CurrentChip(out List<Coordinates> Chip)
+        {
+            Chip = new();
+            for (int Row = 0; Row < Board.GetLength(0);Row++)
+            {
+                for(int Column = 0;Column < Board.GetLength(1); Column++)
+                {
+                    if (Board[Row, Column] != (int)Positions.Space)
+                    {
+                        Chip.Add(new Coordinates(Row, Column, Board[Row, Column]));
+                    }
+                }
+            }
+        }
     }
 }
