@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Laba
+﻿namespace Laba
 {
     internal class Save
     {
@@ -10,7 +8,8 @@ namespace Laba
         private static string Nick2;
         private static int Player2Chips;
         private static int Player1Chips;
-
+        private static string SaveName;
+        private static string PreviousSaveName;
         public static string Information
         {
             get { return Seed; }
@@ -35,6 +34,16 @@ namespace Laba
         {
             get { return Player2Chips; }
             set { Player2Chips = value; }
+        }
+        public static string SavingName
+        {
+            get { return SaveName; }
+            set { SaveName = value; }
+        }
+        public static string PreviousSavingName
+        {
+            get { return PreviousSaveName; }
+            set { PreviousSaveName = value; }
         }
     }
 }
