@@ -18,7 +18,7 @@
         </Grid.ColumnDefinitions>
         <!--#region StarterMenu-->
         <Image x:Name="StartButton"  Source="/Images/Start.png" Margin="1240,210,120,574" MouseLeftButtonDown="StartGame"/>
-        <Image x:Name="LoadSaveButton" Margin="1036,358,172,294" Source="/Images/Load.png"/>
+        <Image x:Name="LoadSaveButton" Margin="1036,358,172,294" Source="/Images/Load.png" MouseLeftButtonDown="LoadSave"/>
         <Image x:Name="ExitButton" Margin="992,669,596,173" Source="/Images/Exit.png" MouseLeftButtonDown="Exit"/>
         <Image x:Name="TopPlayers" Margin="164,90,1207,95" Source="/Images/TopPlayers.png" Stretch="Fill"/>
         <!--#endregion-->
@@ -48,5 +48,25 @@
         <Label x:Name="TopScore10" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="614,878,1286,150"/>
         <!--#endregion-->
         <!--#endregion-->
+        <Canvas x:Name="LoadMenu" Visibility="Hidden">
+            <Image x:Name="MenuBack" Source="/Images/MenuBackground.png"/>
+            <Image x:Name="SaveMenuBackground" Source="/Images/SaveMenu.png" Stretch="Uniform" Canvas.Left="682" Canvas.Top="118" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
+            <Image x:Name="SaveBack1" Source="/Images/SaveBackground.png" Stretch="Fill" Canvas.Left="725" Canvas.Top="174" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"/>
+            <Image x:Name="SaveBack2" Source="/Images/SaveBackground.png" Stretch="Fill" Canvas.Left="1020" Canvas.Top="174" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"/>
+            <Image x:Name="SaveBack3" Source="/Images/SaveBackground.png" Stretch="Fill" Canvas.Left="725" Canvas.Top="330" Visibility="Hidden"/>
+            <Image x:Name="SaveBack4" Source="/Images/SaveBackground.png" Stretch="Fill" Canvas.Left="1020" Canvas.Top="330" Visibility="Hidden"/>
+            <Image x:Name="SaveBack5" Source="/Images/SaveBackground.png" Stretch="Fill" Canvas.Left="725" Canvas.Top="486" Visibility="Hidden"/>
+            <Image x:Name="SaveBack6" Source="/Images/SaveBackground.png" Stretch="Fill" Canvas.Left="1020" Canvas.Top="486" Visibility="Hidden"/>
+            <Image x:Name="SaveBack7" Source="/Images/SaveBackground.png" Stretch="Fill" Canvas.Left="725" Canvas.Top="642" Visibility="Hidden"/>
+            <Image x:Name="SaveBack8" Source="/Images/SaveBackground.png" Stretch="Fill" Canvas.Left="1020" Canvas.Top="642" Visibility="Hidden"/>
+            <Label x:Name="SaveText1" Content="Сохранить игру" FontFamily="Fontes/Hebar.ttf" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="727" Canvas.Top="174" HorizontalAlignment="Center" VerticalAlignment="Top" Height="114" Width="237" MouseLeftButtonDown="LoadingSave"  Visibility="Hidden"/>
+            <Label x:Name="SaveText2" Content="Сохранить игру" FontFamily="Fontes/Hebar.ttf" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="1022" Canvas.Top="174" HorizontalAlignment="Center" VerticalAlignment="Top" Height="114" Width="237" MouseLeftButtonDown="LoadingSave" Visibility="Hidden"/>
+            <Label x:Name="SaveText3" Content="Сохранить игру" FontFamily="Fontes/Hebar.ttf" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="727" Canvas.Top="330" HorizontalAlignment="Center" VerticalAlignment="Top" Height="115" Width="237" MouseLeftButtonDown="LoadingSave" Visibility="Hidden"/>
+            <Label x:Name="SaveText4" Content="Сохранить игру" FontFamily="Fontes/Hebar.ttf" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="1022" Canvas.Top="330" HorizontalAlignment="Center" VerticalAlignment="Top" Height="115" Width="237" MouseLeftButtonDown="LoadingSave" Visibility="Hidden"/>
+            <Label x:Name="SaveText5" Content="Сохранить игру" FontFamily="Fontes/Hebar.ttf" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="728" Canvas.Top="486" HorizontalAlignment="Center" VerticalAlignment="Top" Height="115" Width="237" MouseLeftButtonDown="LoadingSave" Visibility="Hidden"/>
+            <Label x:Name="SaveText6" Content="Сохранить игру" FontFamily="Fontes/Hebar.ttf" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="1023" Canvas.Top="486" HorizontalAlignment="Center" VerticalAlignment="Top" Height="115" Width="237" MouseLeftButtonDown="LoadingSave" Visibility="Hidden"/>
+            <Label x:Name="SaveText7" Content="Сохранить игру" FontFamily="Fontes/Hebar.ttf" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="727" Canvas.Top="642" HorizontalAlignment="Center" VerticalAlignment="Top" Height="113" Width="237" MouseLeftButtonDown="LoadingSave" Visibility="Hidden"/>
+            <Label x:Name="SaveText8" Content="Сохранить игру" FontFamily="Fontes/Hebar.ttf" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="1023" Canvas.Top="642" HorizontalAlignment="Center" VerticalAlignment="Top" Height="113" Width="237" MouseLeftButtonDown="LoadingSave" Visibility="Hidden"/>
+        </Canvas>
     </Grid>
 </Page>
