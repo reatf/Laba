@@ -17,15 +17,15 @@
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <Canvas x:Name="PlayersNicksContainer">
-            <Image x:Name="PlayersNicks" Source="/Imagine/SaveNick.png" VerticalAlignment="Top" Height="200" Panel.ZIndex="1" Canvas.Left="639" Canvas.Top="-236" HorizontalAlignment="Left"/>
-            <Image x:Name="PlayersHint" Source="/Imagine/Hint.Png" Height="120" VerticalAlignment="Top" Canvas.Left="672" Canvas.Top="-196" HorizontalAlignment="Left" />
+            <Image x:Name="PlayersNicks" Source="/Images/SaveNick.png" VerticalAlignment="Top" Height="200" Panel.ZIndex="1" Canvas.Left="639" Canvas.Top="-236" HorizontalAlignment="Left"/>
+            <Image x:Name="PlayersHint" Source="/Images/Hint.Png" Height="120" VerticalAlignment="Top" Canvas.Left="672" Canvas.Top="-196" HorizontalAlignment="Left" />
             <TextBox x:Name="Player2Nick" Text="" FontFamily="Fontes/Hebar.ttf" FontSize="13" VerticalContentAlignment="Center" Panel.ZIndex="1" BorderBrush="White" Height="31" VerticalAlignment="Top" Canvas.Left="770" Canvas.Top="-93" HorizontalAlignment="Left" Width="448"/>
             <TextBox x:Name="Player1Nick" Text="" FontFamily="Fontes/Hebar.ttf" FontSize="13" VerticalContentAlignment="Center" Panel.ZIndex="1" BorderBrush="White" Height="30" VerticalAlignment="Top" Canvas.Left="770" Canvas.Top="-153" HorizontalAlignment="Left" Width="448"/>
-            <Image x:Name="EnterButton" Source="/Imagine/Enter.png" Height="96" VerticalAlignment="Top" MouseLeftButtonDown="EnterButtonClick" Canvas.Left="837" Canvas.Top="-140"/>
+            <Image x:Name="EnterButton" Source="/Images/Enter.png" Height="96" VerticalAlignment="Top" MouseLeftButtonDown="EnterButtonClick" Canvas.Left="837" Canvas.Top="-140"/>
             <Label x:Name="ErrorName" Content="Имена игроков были введены некоректно. Пожалуйста, повторите попытку." HorizontalAlignment="Left"  Panel.ZIndex="1" VerticalAlignment="Top" FontFamily="Fontes/Hebar.ttf" Foreground="#FFC30000" Canvas.Left="778" Canvas.Top="-118" Visibility="Hidden"/>
-
+            <Image x:Name="Board" Source="/Images/Board.png" Canvas.Left="523" Canvas.Top="1299" HorizontalAlignment="Center" VerticalAlignment="Top" Panel.ZIndex="1"/>
+            <Image x:Name="ChipCount" Margin="2208,229,-2030,-104" Source="/Images/ChipCount.png" />
         </Canvas>
-        <Image x:Name="Board" Source="/Imagine/Board.png" Stretch="Fill" Canvas.Left="523" Canvas.Top="93" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="528,1101,0,0"/>
     </Grid>
 
 </Page>

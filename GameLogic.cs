@@ -1,25 +1,10 @@
 ﻿using System;
-using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Collections.Generic;
-using System.Windows.Documents.DocumentStructures;
-using System.Security.RightsManagement;
-using System.Windows.Media.Media3D;
-using Org.BouncyCastle.Utilities;
-using System.ComponentModel;
-using Google.Protobuf.WellKnownTypes;
-using MySqlX.XDevAPI.Relational;
-using System.Numerics;
-using System.Windows.Controls;
+using System.Text;
 
 namespace Laba
 {
-    struct Leaderboard
-    {
-        internal string Nick;
-        internal int Wins;
-    }
+
     internal class GameLogic
     {
         public enum Positions
@@ -28,6 +13,7 @@ namespace Laba
             White = 1,
             Black = 2,
         }
+
         private readonly int[,] Board = { { 0, 0, 0, 0, 0, 0, 0, 0},
                                           { 0, 0, 0, 0, 0, 0, 0, 0},
                                           { 0, 0, 0, 0, 0, 0, 0, 0},
@@ -36,32 +22,41 @@ namespace Laba
                                           { 0, 0, 0, 0, 0, 0, 0, 0},
                                           { 0, 0, 0, 0, 0, 0, 0, 0},
                                           { 0, 0, 0, 0, 0, 0, 0, 0} };
-        private int EndGame = 0;
-        private int Turn = (int)Positions.Black;
+
+        private int EndGame = 0; // Счетчик завершения игры
+        private int Turn = (int)Positions.Black; // Текущий ход (черные начинают)
+
+        // Метод для определения доступных ходов и проверки завершения игры
         public void AvailableMoves(out List<Coordinates>? AvailableMoves, out bool Ending)
         {
             AvailableMoves = new List<Coordinates>();
-            Ending = false;
-            for (int Row = 0; Row < Board.GetLength(0); Row++)
+            Ending = false; // Игра не завершена по умолчанию
+
+            for (var Row = 0; Row < Board.GetLength(0); Row++)
             {
-                for (int Column = 0; Column < Board.GetLength(1); Column++)
+                for (var Column = 0; Column < Board.GetLength(1); Column++)
                 {
-                    if (CheckMove(Row, Column))
+                    if (CheckMove(Row, Column)) // Проверяем, можно ли сделать ход
                     {
-                        AvailableMoves.Add(new Coordinates(Row, Column));
+                        AvailableMoves.Add(new Coordinates(Row, Column)); // Добавляем координаты в список доступных ходов
                         EndGame = 0;
                     }
                 }
             }
+
             if (AvailableMoves.Count == 0)
             {
                 EndGame++;
             }
+
             if(EndGame == 2)
             {
-                Ending = true;
-                                Save.BlackChips = 0;
+                Ending = true; // Устанавливаем флаг завершения игры
+
+                // Количество фишек каждого цвета в конце игры
+                Save.BlackChips = 0;
                 Save.WhiteChips = 0;
+
                 for (int Row = 0; Row < Board.GetLength(0); Row++)
                 {
                     for (int Column = 0; Column< Board.GetLength(1); Column++)
@@ -78,16 +73,18 @@ namespace Laba
                 }
             }
         }
+
+        // Метод для проверки хода в указанной позиции
         public bool CheckMove(int Row, int Column)
         {
             if (Board[Row, Column] != (int)Positions.Space)
             {
-                return false;
+                return false; // Проверка: если позиция уже занята, вернуть false
             }
 
-            for (int Hight = -1; Hight <= 1; Hight++)
+            for (var Hight = -1; Hight <= 1; Hight++)
             {
-                for (int Weight = -1; Weight <= 1; Weight++)
+                for (var Weight = -1; Weight <= 1; Weight++)
                 {
                     if (Hight == 0 && Weight == 0)
                     {
@@ -104,31 +101,33 @@ namespace Laba
                         {
                             if (FoundOpponent)
                             {
-                                return true;
+                                return true; // Если был найден оппонент и затем своя фишка, возвращаем true
                             }
                             break;
                         }
                         else if (Board[RowVector, ColumnVector] == (int)Positions.Space)
                         {
-                            break;
+                            break; // Если попали на пустую позицию, завершаем проверку
                         }
                         else
                         {
-                            FoundOpponent = true;
+                            FoundOpponent = true; // Обнаружен оппонент
                         }
                         RowVector += Hight;
                         ColumnVector += Weight;
                     }
                 }
             }
-            return false;
+            return false; // Если не нашли допустимый ход, возвращаем false
         }
-        public static void StartLeaderboard(int Index, out Leaderboard Player)
+
+        // Метода для получения информации о Топе игроков
+        public static void StartLeaderboard(out string? Nicks, out int Wins) => Data.SetTop(Save.LeaderIndex, out Nicks, out Wins);
+
+        // Метод для проверки игроков на корректность
+        public static bool CheckNickNames()
         {
-            Data.SetTop(Index, out Player.Nick, out Player.Wins);
-        }
-        public static void CheckNickNames(out bool Key)
-        {
+            bool Key;
             if (String.IsNullOrWhiteSpace(Save.Player1) || String.IsNullOrWhiteSpace(Save.Player2)
                 || (Save.Player1.Length < 3 || Save.Player1.Length > 30) || (Save.Player2.Length < 3 || Save.Player2.Length > 30)
                 || Save.Player1 == Save.Player2)
@@ -139,15 +138,19 @@ namespace Laba
             {
                 Key = true;
             }
+            return Key;
         }
+
+        // Метод для инверсии фишек и смены текущего игрока
         public List<Coordinates> GetReversiChips(Coordinates Chip, out int CurrentTurn)
         {
-            Board[Chip.Row, Chip.Column] = Turn;
-            List<Coordinates> ResultChips = new();
+            Board[Chip.Row, Chip.Column] = Turn; // Создаем список для хранения инвертированных фишек
+            List<Coordinates> ResultChips = new(); // Создание списка для хранения инвертированных фишек
             int key = 0;
-            for (int Hight = -1; Hight <= 1; Hight++)
+
+            for (var Hight = -1; Hight <= 1; Hight++)
             {
-                for (int Weight = -1; Weight <= 1; Weight++)
+                for (var Weight = -1; Weight <= 1; Weight++)
                 {
                     if (Hight == 0 && Weight == 0)
                     {
@@ -268,31 +271,36 @@ namespace Laba
                         }
                         else
                         {
-                            FoundOpponent = true;
+                            FoundOpponent = true; // Отмечаем обнаружение оппонента
                         }
+
                         RowVector += Hight;
                         ColumnVector += Weight;
                     }
+
                     key++;
                 }
             }
-            foreach(var Position in ResultChips)
+
+            foreach(Coordinates Position in ResultChips)
             {
-                Board[Position.Row, Position.Column] = Turn;
+                Board[Position.Row, Position.Column] = Turn; // Инвертируем фишки на доске
             }
-            CurrentTurn = Turn;
-            return ResultChips;
+
+            CurrentTurn = Turn; // Устанавливаем текущего игрока
+            return ResultChips; // Возвращаем инвертированные фишки
         }
-        public void ChangeTurn()
-        {
-            Turn = (Turn == (int)Positions.Black) ? (int)Positions.White : (int)Positions.Black;
-        }
+
+        // Метод для смены текущего игрока
+        public void ChangeTurn() => Turn = (Turn == (int)Positions.Black) ? (int)Positions.White : (int)Positions.Black;
+        
+        // Метод для подсчета количества фишек каждого цвета
         public void ChipsCount(out int WhiteTens, out int WhiteUnits, out int BlackTens, out int BlackUnits)
         {
             int WhiteChips = 0, BlackChips = 0;
-            for(int Row = 0; Row< Board.GetLength(0); Row++)
+            for(var Row = 0; Row< Board.GetLength(0); Row++)
             {
-                for(int Column = 0;  Column < Board.GetLength(1); Column++)
+                for(var Column = 0;  Column < Board.GetLength(1); Column++)
                 {
                     if (Board[Row, Column] == (int)Positions.Black)
                     {
@@ -309,58 +317,60 @@ namespace Laba
             BlackTens = BlackChips / 10;
             BlackUnits = BlackChips % 10;
         }
-        public static void Winner(string PlayerWinner)
-        {
-            Data.SetWinner(PlayerWinner);
-        }
-        public static void GetSavesNumber(out int SaveNumber, out List<string>? SaveName)
-        {
-            Data.GetSaveNumber(out SaveNumber, out SaveName);
-        }
+
+        // Метод для определения победителя и сохранения его имени
+        public static void Winner(string PlayerWinner) => Data.SetWinner(PlayerWinner);
+
+        // Метод для определения победителя и сохранения его имени
+        public static void GetSavesNumber(out int SaveNumber, out List<string>? SaveName) => Data.GetSaveNumber(out SaveNumber, out SaveName);
+
+        // Метод для проверки корректности имени сохранения
         public static void CheckSaveName(out bool Except)
         {
             if(String.IsNullOrWhiteSpace(Save.SavingName) || Save.SavingName.Length < 1 || Save.SavingName.Length > 15)
             {
-                Except = false;
+                Except = false; // Некорректное имя сохранения
             }
             else
             {  
-                Data.CheckSaveName(out Except);
+                Data.CheckSaveName(out Except); // Проверка имени сохранения в данных
             }
         }
-        public static void OverwriteSave()
-        {
-            Data.ChangeSave();
-        }
-        public static void WriteSave()
-        {
-            Data.NewSave();
-        }
+
+        // Метод для перезаписи сохранения
+        public static void OverwriteSave() => Data.ChangeSave();   
+
+        // Метод для создания нового сохранения
+        public static void WriteSave() => Data.NewSave();
+
+        // Метод для получения информации об игровой доске и текущем игроке
         public void GetInformation()
         {
-            string Information = "";
-            for(int Row = 0; Row < Board.GetLength(0); Row++)
+            var Information = new StringBuilder();
+            for(var Row = 0; Row < Board.GetLength(0); Row++)
             {
-                for(int Column = 0; Column < Board.GetLength(1); Column++)
+                for(var Column = 0; Column < Board.GetLength(1); Column++)
                 {
-                    Information += Board[Row, Column].ToString();
+                    Information.Append(Board[Row, Column]);
                 }
             }
-            Information += Turn.ToString();
-            Save.Information = Information;
+            Information.Append(Turn);
+            Save.Information = Information.ToString();
         }
+
+        // Метод для загрузки сохранения
         public void LoadSave()
         {
             Data.GetSave();
             List<string> Symbol = new();
             int SymbolIndex = 0;
-            for(int Index = 0;  Index < Board.Length; Index++)
+            for(var Index = 0;  Index < Board.Length; Index++)
             {
                 Symbol.Add(Save.Information[Index].ToString());
             }
-            for(int Row = 0; Row < Board.GetLength(0); Row++)
+            for(var Row = 0; Row < Board.GetLength(0); Row++)
             {
-                for( int Column = 0; Column < Board.GetLength(1);Column++)
+                for(var Column = 0; Column < Board.GetLength(1);Column++)
                 {
                     Board[Row, Column] = int.Parse(Symbol[SymbolIndex]);
                     SymbolIndex++;
@@ -368,23 +378,29 @@ namespace Laba
             }
             Turn = int.Parse(Save.Information[^1].ToString());
         }
-        public void NowMove(out bool Key)
+
+        // Метод для проверки текущего хода(чей ход)
+        public bool NowMove()
         {
+            bool Key;
             if(Turn != (int) Positions.Black)
             {
-                Key = true;
+                Key = true; // Ход белых
             }
             else
             {
-                Key = false;
+                Key = false; // Ход белых
             }
+            return Key;
         }
+
+        // Метод для получения текущих фишек на доске
         public void CurrentChip(out List<Coordinates> Chip)
         {
             Chip = new();
-            for (int Row = 0; Row < Board.GetLength(0);Row++)
+            for(var Row = 0; Row < Board.GetLength(0);Row++)
             {
-                for(int Column = 0;Column < Board.GetLength(1); Column++)
+                for(var Column = 0;Column < Board.GetLength(1); Column++)
                 {
                     if (Board[Row, Column] != (int)Positions.Space)
                     {
