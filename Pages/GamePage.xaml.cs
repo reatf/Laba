@@ -319,7 +319,7 @@ namespace Laba
 
             Logic.AvailableMoves(out List<Coordinates>? AvailableMoves, out bool Ending);
 
-            if (AvailableMoves.Count > 0)
+            if (AvailableMoves!.Count > 0)
             {
                 foreach (Coordinates Coordinates in AvailableMoves)
                 {
@@ -412,7 +412,7 @@ namespace Laba
         // Метод завершает игру, освобождает ресурсы и переходит на страницу окончания игры.
         public void End()
         {
-            Logic = default; // Освобождение ресурсов
+            Logic = default!; // Освобождение ресурсов
             NavigationService Navigate = this.NavigationService;
             Navigate.RemoveBackEntry();
             Navigate.Navigate(new Uri("/Pages/EndPage.xaml", UriKind.Relative));
@@ -442,6 +442,19 @@ namespace Laba
             }
         }
 
+        private void BackMenu(object sender, MouseButtonEventArgs e)
+        {
+            LoadingMenu.Visibility = Visibility.Hidden;
+            SaveMenu.Visibility = Visibility.Hidden;
+            Menu.Visibility = Visibility.Visible;
+        }
+
+        private void SavingBackMenu(object sender, MouseButtonEventArgs e)
+        {
+            Saving.Visibility = Visibility.Hidden;
+            SaveMenu.Visibility = Visibility.Visible;
+        }
+
         // Метод, вызываемый при загрузке страницы игры, устанавливает обработчик клавиш для управления меню.
         private void GamePageLoaded(object sender, RoutedEventArgs e)
         {
@@ -461,7 +474,6 @@ namespace Laba
             // Загружает список сохранений из базы данных и отображает их.
             Menu.Visibility = Visibility.Hidden;
             SaveMenu.Visibility = Visibility.Visible;
-            SaveMenuBackground.Visibility = Visibility.Visible;
 
             UIElement[] SaveBack = { SaveBack1, SaveBack2, SaveBack3, SaveBack4,
                                      SaveBack5, SaveBack6, SaveBack7, SaveBack8 };
@@ -479,7 +491,7 @@ namespace Laba
                 }
                 for(var i = 0; i < SaveNumber; i++)
                 {
-                    SaveText[i].Content = SavesName[i];
+                    SaveText[i].Content = SavesName![i];
                 }
             }
             else
@@ -487,7 +499,7 @@ namespace Laba
                 for (var i = 0; i < SaveNumber; i++)
                 {
                     SaveBack[i].Visibility = Visibility.Visible;
-                    SaveText[i].Content = SavesName[i];
+                    SaveText[i].Content = SavesName![i];
                     SaveText[i].Visibility = Visibility.Visible;
                 }
             }
@@ -506,12 +518,12 @@ namespace Laba
             {
                 if (SaveText[i].Name == GetLabel.Name)
                 {
-                    Save.PreviousSavingName = SaveText[i].Content.ToString();
+                    Save.PreviousSavingName = SaveText[i].Content.ToString()!;
                 }
             }
         }
 
-        // Метод для получения информации о текущем состоянии игры (зерно генерации).
+        // Метод для получения информации о текущем состоянии игры (Cид).
         private void GetSeed() => Logic.GetInformation();
 
         // Метод, вызываемый при подтверждении сохранения игры.
@@ -529,7 +541,7 @@ namespace Laba
                 {
                     if (SaveText[i].Content.ToString() == Save.PreviousSavingName)
                     {
-                        if (SaveText[i].Content != "Сохранить игру")
+                        if (SaveText[i].Content.ToString() != "Сохранить игру")
                         {
                             GameLogic.OverwriteSave();
                         }
@@ -554,7 +566,6 @@ namespace Laba
         {
             Menu.Visibility = Visibility.Hidden;
             LoadingMenu.Visibility = Visibility.Visible;
-            LoadingMenuBackground.Visibility = Visibility.Visible;
 
             UIElement[] SaveBack = { LoadBack1, LoadBack2, LoadBack3, LoadBack4,
                                      LoadBack5, LoadBack6, LoadBack7, LoadBack8 };
@@ -565,7 +576,7 @@ namespace Laba
             for (var i = 0; i < SaveNumber; i++)
             {
                 SaveBack[i].Visibility = Visibility.Visible;
-                LoadText[i].Content = SavesName[i];
+                LoadText[i].Content = SavesName![i];
                 LoadText[i].Visibility = Visibility.Visible;
             }
         }
@@ -575,7 +586,7 @@ namespace Laba
         private void LoadingSave(object sender, MouseButtonEventArgs e)
         {
             Label GetLabel = (Label)sender;
-            Save.PreviousSavingName = GetLabel.Content.ToString();
+            Save.PreviousSavingName = GetLabel.Content.ToString()!;
 
             Label[] LoadText = { LoadText1, LoadText2, LoadText3, LoadText4,
                                  LoadText5, LoadText6, LoadText7, LoadText8 };

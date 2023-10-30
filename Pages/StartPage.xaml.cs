@@ -45,7 +45,7 @@ namespace Laba
             }
 
             var WindowMain = Window.GetWindow(this);
-            WindowMain.KeyDown += ExitLoad;
+            WindowMain.KeyDown += EscLoad;
         }
 
         // Метод для выхода из игры
@@ -81,7 +81,6 @@ namespace Laba
         private void LoadSave(object sender, MouseButtonEventArgs e)
         {
             LoadMenu.Visibility = Visibility.Visible;
-            SaveMenuBackground.Visibility = Visibility.Visible;
             UIElement[] SaveBack = { SaveBack1, SaveBack2, SaveBack3, SaveBack4,
                                      SaveBack5, SaveBack6, SaveBack7, SaveBack8 };
             Label[] SaveText = { SaveText1, SaveText2, SaveText3, SaveText4,
@@ -90,25 +89,28 @@ namespace Laba
             for(var Index = 0; Index < SaveNumber; Index++)
             {
                 SaveBack[Index].Visibility = Visibility.Visible;
-                SaveText[Index].Content = SavesName[Index];
+                SaveText[Index].Content = SavesName![Index];
                 SaveText[Index].Visibility = Visibility.Visible;
             }
         }
 
         // Метод для выхода из меню загрузки
-        private void ExitLoad(object sender, KeyEventArgs e)
+        private void EscLoad(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape && LoadMenu.Visibility == Visibility.Visible)
             {
                 LoadMenu.Visibility = Visibility.Hidden;
             }
         }
-
+        private void ExitLoad(object sender, MouseButtonEventArgs e)
+        {
+            LoadMenu.Visibility = Visibility.Hidden;
+        }
         // Метод для загрузки сохраненной игры
         private void LoadingSave(object sender, MouseButtonEventArgs e)
         {
             Label GetLabel = (Label)sender;
-            Save.PreviousSavingName = GetLabel.Content.ToString();
+            Save.PreviousSavingName = GetLabel.Content.ToString()!;
             Exception = true;
             NavigationService Navigate = this.NavigationService;
             Navigate.RemoveBackEntry();

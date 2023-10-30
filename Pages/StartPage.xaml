@@ -50,7 +50,8 @@
         <!--#endregion-->
         <Canvas x:Name="LoadMenu" Visibility="Hidden">
             <Image x:Name="MenuBack" Source="/Images/MenuBackground.png"/>
-            <Image x:Name="SaveMenuBackground" Source="/Images/SaveMenu.png" Stretch="Uniform" Canvas.Left="682" Canvas.Top="118" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
+            <Image x:Name="BackButton" Height="168" Canvas.Left="789" Source="/Images/Back.png" Stretch="Fill" Canvas.Top="798" Width="412" MouseLeftButtonDown="ExitLoad"/>
+            <Image x:Name="SaveMenuBackground" Source="/Images/LoadMenu.png" Stretch="Uniform" Canvas.Left="682" Canvas.Top="30" HorizontalAlignment="Center" VerticalAlignment="Top" />
             <Image x:Name="SaveBack1" Source="/Images/SaveBackground.png" Stretch="Fill" Canvas.Left="725" Canvas.Top="174" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"/>
             <Image x:Name="SaveBack2" Source="/Images/SaveBackground.png" Stretch="Fill" Canvas.Left="1020" Canvas.Top="174" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"/>
             <Image x:Name="SaveBack3" Source="/Images/SaveBackground.png" Stretch="Fill" Canvas.Left="725" Canvas.Top="330" Visibility="Hidden"/>
