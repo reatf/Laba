@@ -7,7 +7,7 @@
       Title="StartPage"
       Width="{x:Static SystemParameters.PrimaryScreenWidth}"  
       Height="{x:Static SystemParameters.PrimaryScreenHeight}"
-      Loaded="Leaderboard">
+      Loaded="StartPageLoaded">
 
     <Grid Background="#FFFFF5E4">
         <Grid.RowDefinitions>
@@ -16,38 +16,39 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <!--#region StarterMenu-->
-        <Image x:Name="StartButton"  Source="/Images/Start.png" Margin="1240,210,120,574" MouseLeftButtonDown="StartGame"/>
-        <Image x:Name="LoadSaveButton" Margin="1036,358,172,294" Source="/Images/Load.png" MouseLeftButtonDown="LoadSave"/>
-        <Image x:Name="ExitButton" Margin="992,669,596,173" Source="/Images/Exit.png" MouseLeftButtonDown="Exit"/>
-        <Image x:Name="TopPlayers" Margin="164,90,1207,95" Source="/Images/TopPlayers.png" Stretch="Fill"/>
-        <!--#endregion-->
-        <!--#region Leaderboard-->
-        <!--#region TopPlayers-->
-        <Label x:Name="TopPlayer1" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center"  Margin="209,302,1540,726"/>
-        <Label x:Name="TopPlayer2" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="209,366,1540,662"/>
-        <Label x:Name="TopPlayer3" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="209,430,1540,598"/>
-        <Label x:Name="TopPlayer4" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="209,494,1540,534"/>
-        <Label x:Name="TopPlayer5" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="209,558,1540,470"/>
-        <Label x:Name="TopPlayer6" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="209,622,1540,406"/>
-        <Label x:Name="TopPlayer7" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="209,686,1540,342"/>
-        <Label x:Name="TopPlayer8" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="209,750,1540,278"/>
-        <Label x:Name="TopPlayer9" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="209,814,1540,214"/>
-        <Label x:Name="TopPlayer10" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="209,878,1540,150"/>
-        <!--#endregion-->
-        <!--#region TopScore-->
-        <Label x:Name="TopScore1" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="614,302,1286,726"/>
-        <Label x:Name="TopScore2" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="614,366,1286,662"/>
-        <Label x:Name="TopScore3" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="614,430,1286,598"/>
-        <Label x:Name="TopScore4" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="614,494,1286,534"/>
-        <Label x:Name="TopScore5" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="614,558,1286,470"/>
-        <Label x:Name="TopScore6" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="614,622,1286,406"/>
-        <Label x:Name="TopScore7" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="614,686,1286,342"/>
-        <Label x:Name="TopScore8" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="614,750,1286,278"/>
-        <Label x:Name="TopScore9" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="614,814,1286,214"/>
-        <Label x:Name="TopScore10" Content="Label" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" Margin="614,878,1286,150"/>
-        <!--#endregion-->
-        <!--#endregion-->
+
+        <Canvas x:Name="StarterMenu">
+            <Image x:Name="StartButton"  Source="/Images/Start.png" Margin="1240,210,120,574" MouseLeftButtonDown="StartGame"/>
+            <Image x:Name="LoadSaveButton" Source="/Images/Load.png" MouseLeftButtonDown="LoadSave" Canvas.Left="1032" Canvas.Top="454"/>
+            <Image x:Name="ExitButton" Source="/Images/Exit.png" MouseLeftButtonDown="Exit" Canvas.Left="949" Canvas.Top="698"/>
+        </Canvas>
+        <Canvas x:Name="LeaderboardVisual">
+            <Image x:Name="TopPlayers" Margin="164,90,1207,95" Source="/Images/TopPlayers.png" Stretch="Fill"/>
+            <!--#region TopPlayers-->
+            <Label x:Name="TopPlayer1" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="203" Canvas.Top="287" HorizontalAlignment="Center" VerticalAlignment="Top" Width="209" Height="42"/>
+            <Label x:Name="TopPlayer2" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="203" Canvas.Top="350" HorizontalAlignment="Center" VerticalAlignment="Center" Width="209" Height="42"/>
+            <Label x:Name="TopPlayer3" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="203" Canvas.Top="413" HorizontalAlignment="Center" VerticalAlignment="Top" Width="209" Height="41"/>
+            <Label x:Name="TopPlayer4" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="203" Canvas.Top="476" HorizontalAlignment="Center" VerticalAlignment="Top" Width="209" Height="42"/>
+            <Label x:Name="TopPlayer5" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="203" Canvas.Top="539" HorizontalAlignment="Center" VerticalAlignment="Top" Width="209" Height="42"/>
+            <Label x:Name="TopPlayer6" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="203" Canvas.Top="602" HorizontalAlignment="Center" VerticalAlignment="Center" Width="209" Height="42"/>
+            <Label x:Name="TopPlayer7" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="203" Canvas.Top="665" HorizontalAlignment="Center" VerticalAlignment="Top" Width="209" Height="42"/>
+            <Label x:Name="TopPlayer8" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="203" Canvas.Top="728" HorizontalAlignment="Center" VerticalAlignment="Top" Width="209" Height="42"/>
+            <Label x:Name="TopPlayer9" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="203" Canvas.Top="791" HorizontalAlignment="Center" VerticalAlignment="Center" Width="209" Height="42"/>
+            <Label x:Name="TopPlayer10" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="203" Canvas.Top="854" HorizontalAlignment="Center" VerticalAlignment="Top" Width="209" Height="42"/>
+            <!--#endregion-->
+            <!--#region TopScore-->
+            <Label x:Name="TopScore1" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="527" Canvas.Top="287" HorizontalAlignment="Center" VerticalAlignment="Center" Width="88" Height="42"/>
+            <Label x:Name="TopScore2" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="527" Canvas.Top="350" HorizontalAlignment="Center" VerticalAlignment="Center" Width="88" Height="42"/>
+            <Label x:Name="TopScore3" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="527" Canvas.Top="413" HorizontalAlignment="Center" VerticalAlignment="Center" Width="88" Height="41"/>
+            <Label x:Name="TopScore4" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="527" Canvas.Top="476" HorizontalAlignment="Center" VerticalAlignment="Top" Width="88" Height="42"/>
+            <Label x:Name="TopScore5" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="527" Canvas.Top="539" HorizontalAlignment="Center" VerticalAlignment="Top" Width="88" Height="42"/>
+            <Label x:Name="TopScore6" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="527" Canvas.Top="602" HorizontalAlignment="Center" VerticalAlignment="Top" Width="88" Height="42"/>
+            <Label x:Name="TopScore7" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="527" Canvas.Top="665" HorizontalAlignment="Center" VerticalAlignment="Center" Width="88" Height="42"/>
+            <Label x:Name="TopScore8" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="527" Canvas.Top="728" HorizontalAlignment="Center" VerticalAlignment="Top" Width="88" Height="42"/>
+            <Label x:Name="TopScore9" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="527" Canvas.Top="791" HorizontalAlignment="Center" VerticalAlignment="Top" Width="88" Height="42"/>
+            <Label x:Name="TopScore10" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="527" Canvas.Top="854" HorizontalAlignment="Center" VerticalAlignment="Center" Width="88" Height="42"/>
+            <!--#endregion-->
+        </Canvas>
         <Canvas x:Name="LoadMenu" Visibility="Hidden">
             <Image x:Name="MenuBack" Source="/Images/MenuBackground.png"/>
             <Image x:Name="BackButton" Height="168" Canvas.Left="789" Source="/Images/Back.png" Stretch="Fill" Canvas.Top="798" Width="412" MouseLeftButtonDown="ExitLoad"/>

@@ -5,7 +5,7 @@ namespace Laba
 {
     internal class Data
     {
-        // Метод для получения данных о Топе игроков
+        // Метод получения данных о Топе игроков.
         internal static void SetTop(int Index, out string? TopNicks, out int TopWins)
         {
             MySqlConnection Connection = new("Server=localhost;Port=3306;Database=reversi_schema;Uid=root;Pwd=1324");
@@ -26,18 +26,19 @@ namespace Laba
                 TopNicks = "";
                 TopWins = 0;
             }
+
             Reader.Close();
             Connection.Close();
         }
 
-        // Метод для обновления информации о победителе
+        // Метод обновления информации о победителе.
         internal static void SetWinner(string Winner)
         {
             bool PlayerExist;
             MySqlConnection Connection = new("Server=localhost;Port=3306;Database=reversi_schema;Uid=root;Pwd=1324");
             Connection.Open();
 
-            // Проверка наличия игрока в таблице лидеров
+            // Проверка наличия игрока в таблице лидеров.
             MySqlCommand Command = new("select * from leaderboard where NickName = @NickName;", Connection);
             Command.Parameters.AddWithValue("@NickName", Winner);
             MySqlDataReader Reader = Command.ExecuteReader();
@@ -55,22 +56,23 @@ namespace Laba
 
             if (PlayerExist)
             {
-                // Обновление количества побед игрока
+                // Обновление количества побед игрока.
                 Command = new MySqlCommand("Update leaderboard set Wins = Wins + 1 where Nickname = @NickName;", Connection);
                 Command.Parameters.AddWithValue("@NickName", Winner);
                 Command.ExecuteNonQuery();
             }
             else
             {
-                // Добавление нового игрока в таблицу лидеров
+                // Добавление нового игрока в таблицу лидеров.
                 Command = new MySqlCommand("insert into leaderboard (NickName, Wins) value (@NickName, 1);", Connection);
                 Command.Parameters.AddWithValue("@NickName", Winner);
                 Command.ExecuteNonQuery();
             }
+
             Connection.Close();
         }
 
-        // Метод для получения количества сохранений и их имен
+        // Метод получения количества сохранений и их названий.
         internal static void GetSaveNumber(out int SaveNumber, out List<string>? SaveName)
         {
             SaveNumber = 0;
@@ -86,11 +88,12 @@ namespace Laba
                 SaveNumber++;
                 SaveName.Add(Reader["SaveName"].ToString()!);
             }
+
             Reader.Close();
             Connection.Close();
         }
 
-        // Метод для обновления сохранения
+        // Метод переписания сохранения.
         internal static void ChangeSave()
         {
             MySqlConnection Connection = new("Server=localhost;Port=3306;Database=reversi_schema;Uid=root;Pwd=1324");
@@ -107,7 +110,7 @@ namespace Laba
             Connection.Close();
         }
 
-        // Метод для создания нового сохранения
+        // Метод создания нового сохранения.
         internal static void NewSave()
         {
             MySqlConnection Connection = new("Server=localhost;Port=3306;Database=reversi_schema;Uid=root;Pwd=1324");
@@ -123,7 +126,7 @@ namespace Laba
             Connection.Close();
         }
 
-        // Метод для проверки уникальности имени 
+        // Метод проверки уникальности названия сохранения. 
         internal static void CheckSaveName(out bool Except)
         {
             MySqlConnection Connection = new("Server=localhost;Port=3306;Database=reversi_schema;Uid=root;Pwd=1324");
@@ -147,7 +150,7 @@ namespace Laba
             Connection.Close();
         }
 
-        // Метод для получения данных сохранения
+        // Метод получения данных сохранения.
         internal static void GetSave()
         {
             MySqlConnection Connection = new("Server=localhost;Port=3306;Database=reversi_schema;Uid=root;Pwd=1324");

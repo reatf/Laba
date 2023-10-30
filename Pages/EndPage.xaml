@@ -23,7 +23,7 @@
             <Image x:Name="Congratulations" Source="/Images/Congrats.png" Stretch="Uniform" Height="153" Canvas.Left="85" Canvas.Top="41" Width="940" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Image x:Name="WinText" Source="/Images/WinText.png" Stretch="Uniform" Canvas.Left="1136" Canvas.Top="392" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Image x:Name="DrawText" Source="/Images/DrawText.png" Stretch="Uniform" Canvas.Left="923" Canvas.Top="266" Height="153" Width="933" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden"/>
-            <Label x:Name="WinPlayer" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="95" HorizontalContentAlignment="Center" Height="106" Canvas.Left="40" Canvas.Top="240" Width="1840" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label x:Name="WinPlayer" Content="" FontFamily="Fontes/Hebar.ttf" FontSize="95" HorizontalContentAlignment="Center" Height="120" Canvas.Left="40" Canvas.Top="222" Width="1840" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         </Canvas>
     </Grid>
 </Page>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Laba.ViewModels;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,32 +12,43 @@ namespace Laba
 {
     public partial class EndPage : Page
     {
-        public EndPage() => InitializeComponent();
+        private EndPageVM View;
+        public EndPage()
+        {
+            View = new(this);
+            InitializeComponent();
+        }
 
-        // Метод, вызываемый при запуске экрана завершения
+        // Метод визуализации итогов игры.
         public void Start(object sender, RoutedEventArgs e)
         {
-            // Проверка результатов игры и определение победителя
-            if (Save.BlackChips > Save.WhiteChips)
-            {
-                WinPlayer.Content = Save.Player1;
-                GameLogic.Winner(Save.Player1); // Установка победителя в БЛ
-            }
-            else if(Save.WhiteChips > Save.BlackChips)
-            {
-                WinPlayer.Content = Save.Player2;
-                GameLogic.Winner(Save.Player2); // Установка победителя в БЛ
-            }
-            else
-            {
-                WinText.Visibility = Visibility.Hidden;
-                DrawText.Visibility = Visibility.Visible;
-            }
+            View.CheckEnd();
 
             ContinueAnimation();
         }
 
-        // Метод для анимации кнопки "Продолжить"
+        // Метод установки победителя Player1.
+        public void Winner1()
+        {
+            WinPlayer.Content = Save.Player1;
+            GameLogic.Winner(Save.Player1);
+        }
+
+        // Метод установки победителя Player2.
+        public void Winner2()
+        {
+            WinPlayer.Content = Save.Player2;
+            GameLogic.Winner(Save.Player2);
+        }
+
+        // Метод для отображения ничьей.
+        public void Draw()
+        {
+            WinText.Visibility = Visibility.Hidden;
+            DrawText.Visibility = Visibility.Visible;
+        }
+
+        // Метод анимации кнопки "Продолжить"
         public async void ContinueAnimation()
         {
             DoubleAnimation TopAnimation = new(0, -588, TimeSpan.FromSeconds(2));
@@ -47,12 +59,15 @@ namespace Laba
 
         }
 
-        // Метод для перехода в главное меню
+        // Метод перехода в стартовое окно.
         private void Menu(object sender, MouseButtonEventArgs e)
         {
+            View.Ending();
+            View = default!;
             NavigationService Navigate = this.NavigationService;
             Navigate.RemoveBackEntry();
             Navigate.Navigate(new Uri("/Pages/StartPage.xaml", UriKind.Relative));          
         }
+
     }
 }

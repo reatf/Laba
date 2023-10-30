@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Navigation;
 
 namespace Laba
 {
@@ -11,7 +10,7 @@ namespace Laba
             InitializeComponent();
         }
 
-        // Метод, вызываемый при запуске главного окна
+        // Метод, перехода на стартовую страницу.
         public void Start (object sender, RoutedEventArgs e)
         {
             MainFrame.NavigationService.Navigate(new Uri("/Pages/StartPage.xaml", UriKind.Relative));

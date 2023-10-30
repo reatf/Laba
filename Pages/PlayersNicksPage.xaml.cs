@@ -6,45 +6,39 @@ using System.Windows.Navigation;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using Laba.ViewModels;
 
 namespace Laba
 {
     public partial class PlayersNicksPage : Page
     {
-        public PlayersNicksPage() => InitializeComponent();
+        private PlayersNickVM View;
+
+        public PlayersNicksPage()
+        {
+            View = new(this);
+            InitializeComponent();
+        }
+
 
         // Метод для отображения подсказки и анимации при запуске страницы
         private async void HintsShow(object sender, RoutedEventArgs e)
         {
-            MainAnimation(500);
+            MainAnimation(0, 500);
             await Task.Delay(1100);
             HintAnimation(-150);
             EnterButtonAnimation(90);
         }
 
         // Метод для анимации элементов страницы при старте
-        private async void MainAnimation(int Vector)
+        private async void MainAnimation(int Start, int Vector)
         {
-            UIElement[] Main = { PlayersNicks, Player1Nick, Player2Nick, PlayersHint, EnterButton, ErrorName };
             TranslateTransform TransformMain = new();
-            DoubleAnimation Position = new(0, Vector, TimeSpan.FromSeconds(1));
+            DoubleAnimation Position = new(Start, Vector, TimeSpan.FromSeconds(1));
 
-            for (var i = 0; i < Main.Length; i++)
-            {
-                Main[i].RenderTransform = TransformMain;
-                TransformMain.BeginAnimation(TranslateTransform.YProperty, Position);
-            }
-
+            NicksMenu.RenderTransform = TransformMain;
+            TransformMain.BeginAnimation(TranslateTransform.YProperty, Position);
             await Task.Delay(1000);
-            for (var i = 0; i < Main.Length; i++)
-            {
-                Main[i].RenderTransform = TransformMain;
-                TransformMain.BeginAnimation(TranslateTransform.YProperty, null);
-            }
-            for (var i = 0; i < Main.Length; i++)
-            {
-                Canvas.SetTop(Main[i], Canvas.GetTop(Main[i]) + Vector);
-            }
         }
 
         // Метод для анимации подсказки
@@ -103,20 +97,7 @@ namespace Laba
         }
 
         // Обработчик клика по кнопке "Ввод"
-        private void EnterButtonClick(object sender, MouseButtonEventArgs e)
-        {
-            Save.Player1 = Player1Nick.Text;
-            Save.Player2 = Player2Nick.Text;
-
-            if (GameLogic.CheckNickNames())
-            {
-                StartGame();
-            }
-            else
-            {
-                Error();
-            }
-        }
+        private void EnterButtonClick(object sender, MouseButtonEventArgs e) => View.SetNames(Player1Nick.Text, Player2Nick.Text);
 
         // Метод для начала игры и анимации перехода
         public async void StartGame()
@@ -125,11 +106,14 @@ namespace Laba
             HintAnimation(150);
             EnterButtonAnimation(-90);
             await Task.Delay(1100);
-            MainAnimation(-500);
+            MainAnimation(500, 0);
             await Task.Delay(1100);
             BoardAnimation(-1191);
             ChipCountAnimation(-760);
             await Task.Delay(2100);
+
+            View.End();
+            View = default!;
 
             NavigationService.RemoveBackEntry();
             NavigationService.Navigate(new Uri("/Pages/GamePage.xaml", UriKind.Relative));

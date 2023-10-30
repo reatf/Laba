@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Laba.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
@@ -7,21 +8,37 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
+using System.Xml.Linq;
 
 namespace Laba
 {
     public partial class StartPage : Page
     {
-        public StartPage() => InitializeComponent();
+        private StartPageVM View;
+        public StartPage()
+        {
+            View = new(this);
+            InitializeComponent();
+            View.Leaders();
+        }
+
+        // Флаг исключения загрузки
         private static bool LoadException = false;
+
         public static bool Exception
         {
             get { return LoadException; }
             set { LoadException = value; }
         }
 
+        // Метод, вызываемый при загрузке страницы StartPage.
+        public void StartPageLoaded(object sender, RoutedEventArgs e)
+        {
+            var WindowMain = Window.GetWindow(this);
+            WindowMain.KeyDown += View.StartEsc;
+        }
         // Метод для отображения Топ игроков
-        private void Leaderboard(object sender, RoutedEventArgs e)
+        public void Leaderboard(int Index, string Nick, int Wins)
         {
             Label[] TopNicks = { TopPlayer1, TopPlayer2, TopPlayer3, TopPlayer4, TopPlayer5,
                                  TopPlayer6, TopPlayer7, TopPlayer8, TopPlayer9, TopPlayer10 }; 
@@ -29,23 +46,8 @@ namespace Laba
             Label[] TopScores = { TopScore1, TopScore2, TopScore3, TopScore4, TopScore5,
                                   TopScore6, TopScore7, TopScore8, TopScore9, TopScore10 };
 
-            for (var Index = 0; Index < TopNicks.Length; Index++)
-            {
-                Save.LeaderIndex = Index;
-                GameLogic.StartLeaderboard(out string? Nick, out int Wins);
-                if (Wins == 0)
-                {
-                    break;
-                }
-                else
-                {
-                    TopNicks[Index].Content = Nick;
-                    TopScores[Index].Content = Wins;
-                }
-            }
-
-            var WindowMain = Window.GetWindow(this);
-            WindowMain.KeyDown += EscLoad;
+            TopNicks[Index].Content = Nick;
+            TopScores[Index].Content = Wins;            
         }
 
         // Метод для выхода из игры
@@ -54,25 +56,31 @@ namespace Laba
         // Метод для начала игры, анимации и закрытии стартового окна
         private async void StartGame(object sender, MouseButtonEventArgs e)
         {
-            UIElement[] ElementsRight = { StartButton, LoadSaveButton, ExitButton };
-            UIElement[] ElementsLeft = { TopPlayers,
-                                         TopPlayer1, TopPlayer2, TopPlayer3, TopPlayer4, TopPlayer5, TopPlayer6, TopPlayer7, TopPlayer8, TopPlayer9, TopPlayer10,
-                                         TopScore1, TopScore2, TopScore3, TopScore4, TopScore5, TopScore6, TopScore7, TopScore8, TopScore9, TopScore10 };
-
-            for (var Index = 0; Index < ElementsRight.Length; Index++) StartAnimation(ElementsRight[Index], 3000);
-            for (var Index = 0; Index < ElementsLeft.Length; Index++) StartAnimation(ElementsLeft[Index], -3000);
+            StartAnimationRight(3000);
+            StartAnimationLeft(-3000);
             await Task.Delay(1000);
 
+            View.End();
+            View = default!;
             NavigationService Navigate = this.NavigationService;
             Navigate.RemoveBackEntry();
             Navigate.Navigate(new Uri("/Pages/PlayersNicksPage.xaml", UriKind.Relative));
         }
 
-        // Метод для запуска анимации перемещения элементов
-        private static void StartAnimation(UIElement Element, int Position)
+        // Метод для запуска анимации перемещения элементов вправо
+        private void StartAnimationRight(int Position)
         {
             TranslateTransform Transform = new();
-            Element.RenderTransform = Transform;
+            StarterMenu.RenderTransform = Transform;
+            DoubleAnimation Xposition = new(0, Position, TimeSpan.FromSeconds(1));
+            Transform.BeginAnimation(TranslateTransform.XProperty, Xposition);
+        }
+
+        // Метод для запуска анимации перемещения элементов влево
+        private void StartAnimationLeft(int Position)
+        {
+            TranslateTransform Transform = new();
+            LeaderboardVisual.RenderTransform = Transform;
             DoubleAnimation Xposition = new(0, Position, TimeSpan.FromSeconds(1));
             Transform.BeginAnimation(TranslateTransform.XProperty, Xposition);
         }
@@ -81,37 +89,37 @@ namespace Laba
         private void LoadSave(object sender, MouseButtonEventArgs e)
         {
             LoadMenu.Visibility = Visibility.Visible;
+            View.LoadSaveBack();
+        }
+
+        // Метод для отображения сохраненных игр и их имен
+        public void VisualLoadBack(int Index, string Name)
+        {
             UIElement[] SaveBack = { SaveBack1, SaveBack2, SaveBack3, SaveBack4,
                                      SaveBack5, SaveBack6, SaveBack7, SaveBack8 };
             Label[] SaveText = { SaveText1, SaveText2, SaveText3, SaveText4,
                                  SaveText5, SaveText6, SaveText7, SaveText8 };
-            GameLogic.GetSavesNumber(out int SaveNumber, out List<string>? SavesName);
-            for(var Index = 0; Index < SaveNumber; Index++)
-            {
-                SaveBack[Index].Visibility = Visibility.Visible;
-                SaveText[Index].Content = SavesName![Index];
-                SaveText[Index].Visibility = Visibility.Visible;
-            }
+
+            SaveBack[Index].Visibility = Visibility.Visible;
+            SaveText[Index].Content = Name;
+            SaveText[Index].Visibility = Visibility.Visible;
         }
 
         // Метод для выхода из меню загрузки
-        private void EscLoad(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Escape && LoadMenu.Visibility == Visibility.Visible)
-            {
-                LoadMenu.Visibility = Visibility.Hidden;
-            }
-        }
-        private void ExitLoad(object sender, MouseButtonEventArgs e)
-        {
-            LoadMenu.Visibility = Visibility.Hidden;
-        }
+        public void EscLoad() => LoadMenu.Visibility = Visibility.Hidden;
+
+        // Метод для закрытия меню загрузки
+        private void ExitLoad(object sender, MouseButtonEventArgs e) => LoadMenu.Visibility = Visibility.Hidden;
+
         // Метод для загрузки сохраненной игры
         private void LoadingSave(object sender, MouseButtonEventArgs e)
         {
             Label GetLabel = (Label)sender;
-            Save.PreviousSavingName = GetLabel.Content.ToString()!;
+            StartPageVM.PreviousName(GetLabel.Content.ToString()!);
+            View.End();
+            View = default!;
             Exception = true;
+
             NavigationService Navigate = this.NavigationService;
             Navigate.RemoveBackEntry();
             Navigate.Navigate(new Uri("/Pages/GamePage.xaml", UriKind.Relative));

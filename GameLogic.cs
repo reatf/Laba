@@ -7,6 +7,7 @@ namespace Laba
 
     internal class GameLogic
     {
+        // Перечисление возможных состояний фишки.
         public enum Positions
         {
             Space = 0,
@@ -23,10 +24,10 @@ namespace Laba
                                           { 0, 0, 0, 0, 0, 0, 0, 0},
                                           { 0, 0, 0, 0, 0, 0, 0, 0} };
 
-        private int EndGame = 0; // Счетчик завершения игры
-        private int Turn = (int)Positions.Black; // Текущий ход (черные начинают)
+        private int EndGame = 0; // Счетчик завершения игры.
+        public int Turn = (int)Positions.Black; // Текущий ход (черные начинают).
 
-        // Метод для определения доступных ходов и проверки завершения игры
+        // Метод определения доступных ходов и проверки завершения игры.
         public void AvailableMoves(out List<Coordinates>? AvailableMoves, out bool Ending)
         {
             AvailableMoves = new List<Coordinates>();
@@ -74,7 +75,7 @@ namespace Laba
             }
         }
 
-        // Метод для проверки хода в указанной позиции
+        // Метод для проверки хода в указанной позиции.
         public bool CheckMove(int Row, int Column)
         {
             if (Board[Row, Column] != (int)Positions.Space)
@@ -121,10 +122,10 @@ namespace Laba
             return false; // Если не нашли допустимый ход, возвращаем false
         }
 
-        // Метода для получения информации о Топе игроков
+        // Метода получения информации о Топе игроков.
         public static void StartLeaderboard(out string? Nicks, out int Wins) => Data.SetTop(Save.LeaderIndex, out Nicks, out Wins);
 
-        // Метод для проверки игроков на корректность
+        // Метод проверки имён игроков.
         public static bool CheckNickNames()
         {
             bool Key;
@@ -141,10 +142,10 @@ namespace Laba
             return Key;
         }
 
-        // Метод для инверсии фишек и смены текущего игрока
+        // Метод инверсии фишек и смены текущего игрока.
         public List<Coordinates> GetReversiChips(Coordinates Chip, out int CurrentTurn)
         {
-            Board[Chip.Row, Chip.Column] = Turn; // Создаем список для хранения инвертированных фишек
+            Board[Chip.Row, Chip.Column] = Turn; // Постановка фишки на поле
             List<Coordinates> ResultChips = new(); // Создание списка для хранения инвертированных фишек
             int key = 0;
 
@@ -291,10 +292,10 @@ namespace Laba
             return ResultChips; // Возвращаем инвертированные фишки
         }
 
-        // Метод для смены текущего игрока
+        // Метод смены хода.
         public void ChangeTurn() => Turn = (Turn == (int)Positions.Black) ? (int)Positions.White : (int)Positions.Black;
         
-        // Метод для подсчета количества фишек каждого цвета
+        // Метод подсчета количества фишек каждого цвета.
         public void ChipsCount(out int WhiteTens, out int WhiteUnits, out int BlackTens, out int BlackUnits)
         {
             int WhiteChips = 0, BlackChips = 0;
@@ -318,13 +319,13 @@ namespace Laba
             BlackUnits = BlackChips % 10;
         }
 
-        // Метод для определения победителя и сохранения его имени
+        // Метод определения победителя и сохранения его имени.
         public static void Winner(string PlayerWinner) => Data.SetWinner(PlayerWinner);
 
-        // Метод для определения победителя и сохранения его имени
+        // Метод получения числа имеющихся сохранений.
         public static void GetSavesNumber(out int SaveNumber, out List<string>? SaveName) => Data.GetSaveNumber(out SaveNumber, out SaveName);
 
-        // Метод для проверки корректности имени сохранения
+        // Метод проверки корректности названия сохранения.
         public static void CheckSaveName(out bool Except)
         {
             if(String.IsNullOrWhiteSpace(Save.SavingName) || Save.SavingName.Length < 1 || Save.SavingName.Length > 15)
@@ -337,13 +338,13 @@ namespace Laba
             }
         }
 
-        // Метод для перезаписи сохранения
+        // Метод перезаписи сохранения.
         public static void OverwriteSave() => Data.ChangeSave();   
 
-        // Метод для создания нового сохранения
+        // Метод создания нового сохранения.
         public static void WriteSave() => Data.NewSave();
 
-        // Метод для получения информации об игровой доске и текущем игроке
+        // Метод получения информации об игровой доске и текущем игроке.
         public void GetInformation()
         {
             var Information = new StringBuilder();
@@ -358,7 +359,7 @@ namespace Laba
             Save.Information = Information.ToString();
         }
 
-        // Метод для загрузки сохранения
+        // Метод загрузки сохранения.
         public void LoadSave()
         {
             Data.GetSave();
@@ -379,7 +380,7 @@ namespace Laba
             Turn = int.Parse(Save.Information[^1].ToString());
         }
 
-        // Метод для проверки текущего хода(чей ход)
+        // Метод проверки текущего хода(чей ход).
         public bool NowMove()
         {
             bool Key;
@@ -394,7 +395,7 @@ namespace Laba
             return Key;
         }
 
-        // Метод для получения текущих фишек на доске
+        // Метод получения текущих фишек на доске
         public void CurrentChip(out List<Coordinates> Chip)
         {
             Chip = new();
