@@ -3,33 +3,33 @@
     internal class Save
     {
         // Статические поля для хранения информации о сохраненной игре
-        private static string Seed;
-        private static string Nick1;
-        private static string Nick2;
+        private static string? Seed;
+        private static string? Nick1;
+        private static string? Nick2;
         private static int Player2Chips;
         private static int Player1Chips;
-        private static string SaveName;
-        private static string PreviousSaveName;
+        private static string? SaveName;
+        private static string? PreviousSaveName;
         private static int Index;
 
         // Свойство для доступа к информации о игре
         public static string Information
         {
-            get { return Seed; }
+            get { return Seed!; }
             set { Seed = value; }
         }
 
         // Свойство для доступа к имени первого игрока
         public static string Player1
         {
-            get { return Nick1; }
+            get { return Nick1!; }
             set { Nick1 = value; }
         }
 
         // Свойство для доступа к имени второго игрока
         public static string Player2
         {
-            get { return Nick2; }
+            get { return Nick2!; }
             set { Nick2 = value; }
         }
 
@@ -50,14 +50,14 @@
         // Свойство для доступа к имени текущего сохранения
         public static string SavingName
         {
-            get { return SaveName; }
+            get { return SaveName!; }
             set { SaveName = value; }
         }
 
         // Свойство для доступа к имени предыдущего сохранения
         public static string PreviousSavingName
         {
-            get { return PreviousSaveName; }
+            get { return PreviousSaveName!; }
             set { PreviousSaveName = value; }
         }
 

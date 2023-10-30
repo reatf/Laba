@@ -19,14 +19,14 @@ namespace Laba
             if (Reader.HasRows)
             {
                 TopNicks = Reader["NickName"].ToString();
-                TopWins = int.Parse(Reader["Wins"].ToString());
+                TopWins = int.Parse(Reader["Wins"].ToString()!);
             }
             else
             {
                 TopNicks = "";
                 TopWins = 0;
             }
-
+            Reader.Close();
             Connection.Close();
         }
 
@@ -51,8 +51,7 @@ namespace Laba
                 PlayerExist = false;
             }
 
-            Connection.Close();
-            Connection.Open();
+            Reader.Close();
 
             if (PlayerExist)
             {
@@ -85,9 +84,9 @@ namespace Laba
             while (Reader.Read())
             {
                 SaveNumber++;
-                SaveName.Add(Reader["SaveName"].ToString());
+                SaveName.Add(Reader["SaveName"].ToString()!);
             }
-
+            Reader.Close();
             Connection.Close();
         }
 
@@ -144,6 +143,7 @@ namespace Laba
                 Except= true;
             }
 
+            Reader.Close();
             Connection.Close();
         }
 
@@ -158,10 +158,11 @@ namespace Laba
             MySqlDataReader Reader = Command.ExecuteReader();
             Reader.Read();
 
-            Save.Information = Reader["Save"].ToString();
-            Save.Player1 = Reader["Player1"].ToString();
-            Save.Player2 = Reader["Player2"].ToString();
+            Save.Information = Reader["Save"].ToString()!;
+            Save.Player1 = Reader["Player1"].ToString()!;
+            Save.Player2 = Reader["Player2"].ToString()!;
 
+            Reader.Close();
             Connection.Close();
         }
     }
